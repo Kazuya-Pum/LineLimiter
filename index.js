@@ -2,45 +2,35 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-// create LINE SDK config from env variables
-const config = {
-    channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.CHANNEL_SECRET,
-};
-
-// create LINE SDK client
-const client = new line.Client(config);
+const webhook = require('./routes/webhook');
+const add = require('./routes/add');
+const list = require('./routes/list');
 
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
 
-// register a webhook handler with middleware
-// about the middleware, please refer to doc
-app.post('/webhook', line.middleware(config), (req, res) => {
-    Promise
-        .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result))
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/webhook', webhook);
+app.use('/add', add);
+app.use('/list', list);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
-
-// event handler
-function handleEvent(event) {
-    if (event.type !== 'message' || event.message.type !== 'text') {
-        // ignore non-text-message event
-        return Promise.resolve(null);
-    }
-
-    // create a echoing text message
-    const echo = { type: 'text', text: event.message.text };
-
-    // use reply API
-    return client.replyMessage(event.replyToken, echo);
-}
 
 // listen on port
 const port = process.env.PORT || 3000;
