@@ -15,6 +15,8 @@ const list = require('./routes/list');
 // about Express itself: https://expressjs.com/
 const app = express();
 
+app.use('/webhook', webhook);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,7 +26,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/webhook', webhook);
 app.use('/add', add);
 app.use('/list', list);
 
