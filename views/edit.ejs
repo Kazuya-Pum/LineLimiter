@@ -11,29 +11,51 @@
 <body>
     <div class="uk-container">
         <main>
-            <form class="uk-form-stacked" method="post" action="/edit">
+            <form name="editForm" class="uk-form-stacked" method="post" action="/edit">
                 <div class="uk-margin">
                     <label class="uk-form-label" for="name">name</label>
                     <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="name" id="name" required/>
+                        <input class="uk-input" type="text" name="name" id="name" value="<%=name%>" required/>
                     </div>
                 </div>
 
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="limit">limit</label>
+                    <label class="uk-form-label" for="limitDay">limitDay</label>
                     <div class="uk-form-controls">
-                        <input type="date" name="limit" id="limit" />
+                        <input type="date" name="limitDay" id="limitDay" value="<%=limit_day%>" required/>
                     </div>
                 </div>
 
                 <div class="uk-margin">
                     <label class="uk-form-label" for="place">place</label>
                     <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="place" id="place" />
+                        <input class="uk-input" type="text" name="place" id="place" value="<%=place%>" />
                     </div>
                 </div>
 
-                <button class="uk-button uk-button-primary" type="submit">追加する</button>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="memo">memo</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="text" name="memo" id="memo" value="<%=memo%>" />
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="category">category</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="text" name="category" id="category" value="<%=category%>" />
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="image">image</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="text" name="imageUrl" id="image" value="<%=image_url%>" />
+                    </div>
+                </div>
+
+                <input type="hidden" name="userId" />
+                <button class="uk-button uk-button-primary" type="button" name="add">追加する</button>
             </form>
         </main>
     </div>

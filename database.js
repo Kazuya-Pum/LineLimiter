@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 const pg = require('pg');
 
 const pgClient = new pg.Client({

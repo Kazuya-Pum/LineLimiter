@@ -3,62 +3,21 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://code.jquery.com/jquery.min.js"></script>
     <link rel="stylesheet" href="css/uikit.min.css" />
     <script src="js/uikit.min.js"></script>
     <script src="js/uikit-icons.min.js"></script>
     <title><%=title %></title>
 </head>
 <body>
-    <div class="uk-offcanvas-content">
+    <div class="uk-container">
         <main>
-            <div class="uk-container">
-            <div class="uk-section-small">
-              <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m uk-grid uk-grid-stack" uk-grid="uk-grid">
-                <div class="uk-flex-last@m uk-first-column">
-                  <h1 class="uk-text-right uk-text-primary"><span uk-icon="icon: hashtag" class="uk-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" ratio="1"> <path d="M15.431,8 L15.661,7 L12.911,7 L13.831,3 L12.901,3 L11.98,7 L9.29,7 L10.21,3 L9.281,3 L8.361,7 L5.23,7 L5,8 L8.13,8 L7.21,12 L4.23,12 L4,13 L6.98,13 L6.061,17 L6.991,17 L7.911,13 L10.601,13 L9.681,17 L10.611,17 L11.531,13 L14.431,13 L14.661,12 L11.76,12 L12.681,8 L15.431,8 Z M10.831,12 L8.141,12 L9.061,8 L11.75,8 L10.831,12 Z"></path></svg></span><strong>タブコンポーネント</strong></h1>
-                </div>
-                <div class="uk-grid-margin uk-first-column">
-                  <p class="uk-text-meta">タブコンポーネントはPCでの使いやすさはもちろんですが、UIkit3はスマートフォンの場合に自動でスワイプイベントにも対応してくれるため、使いやすいコンポーネントの1つです。基本的にはスイッチャーコンポーネントとの併用になりますが、タブも横・縦・右・左と好きなレイアウトを実装できます。</p>
-                </div>
-              </div>
-            </div>
-            <div class="uk-section-small">
-              <div>
-                <ul class="uk-child-width-expand uk-tab" uk-tab="animation: uk-animation-fade">
-                  <li class="" aria-expanded="false"><a href="#">ITEM 1</a></li>
-                  <li aria-expanded="true" class="uk-active"><a href="#">ITEM 2</a></li>
-                  <li aria-expanded="false" class=""><a href="#">ITEM 3</a></li>
-                  <li aria-expanded="false" class=""><a href="#">ITEM 4</a></li>
-                </ul>
-                <ul class="uk-switcher uk-margin">
-                  <li class="uk-section-xsmall uk-background-default" style="">
-                    <div class="uk-padding">
-                      タブパネル
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid ducimus voluptate quae, maxime incidunt fuga saepe fugit sapiente cupiditate vel magni, amet sint! Laboriosam fugit nesciunt, repudiandae debitis, minima doloribus.
-                    </div>
-                  </li>
-                  <li class="uk-section-xsmall uk-background-primary uk-active" style="">
-                    <div class="uk-padding">
-                      タブパネル
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid ducimus voluptate quae, maxime incidunt fuga saepe fugit sapiente cupiditate vel magni, amet sint! Laboriosam fugit nesciunt, repudiandae debitis, minima doloribus.
-                    </div>
-                  </li>
-                  <li class="uk-section-xsmall uk-background-secondary" style="">
-                    <div class="uk-padding">
-                      タブパネル
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid ducimus voluptate quae, maxime incidunt fuga saepe fugit sapiente cupiditate vel magni, amet sint! Laboriosam fugit nesciunt, repudiandae debitis, minima doloribus.
-                    </div>
-                  </li>
-                  <li class="uk-section-xsmall uk-background-muted" style="">
-                    <div class="uk-padding">
-                      タブパネル
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid ducimus voluptate quae, maxime incidunt fuga saepe fugit sapiente cupiditate vel magni, amet sint! Laboriosam fugit nesciunt, repudiandae debitis, minima doloribus.
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+            <h1>test</h1>
+            <%=list %>
+            <% list.forEach(function (value, key) { %>
+                
+            <p><%= key %>: <%= value['name'] %></p>
+            <% }); %>
         </main>
     </div>
 
