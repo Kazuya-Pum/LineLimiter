@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+    <title><%=title %></title>
+</head>
+<body>
+    <div class="uk-container">
+        <main>
+            <form class="uk-form-stacked" method="post" action="/edit">
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="name">name</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="text" name="name" id="name" required/>
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="limit">limit</label>
+                    <div class="uk-form-controls">
+                        <input type="date" name="limit" id="limit" />
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="place">place</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" type="text" name="place" id="place" />
+                    </div>
+                </div>
+
+                <button class="uk-button uk-button-primary" type="submit">追加する</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script src="js/liff-edit.js"></script>
+</body>
+</html>
