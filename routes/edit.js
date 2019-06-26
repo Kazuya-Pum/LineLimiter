@@ -8,7 +8,7 @@ router.post('/:id', function (req, res) {
     const id = Number(req.params.id);
     const userId = req.body.userId;
 
-    const queue = `UPDATE ${userId}.food SET name = ${req.body.name}, limit_day = ${req.body.limitDay}, image_url = ${req.body.imageUrl}, place = ${req.body.place}, memo = ${req.body.memo}, category = ${req.body.category}) = (, $3, $4, $5, $6, $7) WHERE id = ${id}`;
+    const queue = `UPDATE ${userId}.food SET name = ${req.body.name}, limit_day = ${req.body.limitDay}, image_url = ${req.body.imageUrl}, place = ${req.body.place}, memo = ${req.body.memo}, category = ${req.body.category} WHERE id = ${id}`;
 
     pgClient.query(queue)
         .then(res => console.log("edit food"))
