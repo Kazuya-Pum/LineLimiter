@@ -1,42 +1,33 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const token = require('./common');
 
 const pgClient = require('../database').client;
 
 router.post('/', function (req, res) {
 
-    const getQuery = `SELECT name FROM ${req.body.userId}.food`;
-    let list = [];
+    token.handler(req)
+        .then(data => {
+            const getQuery = `SELECT name, id FROM ${data.userId}.food ORDER BY limit_day`;
 
-    pgClient.query(getQuery)
-        .then(res => {
-            console.log(res.rows);
-            list = res.rows;
+            pgClient.query(getQuery)
+                .then(result => {
+                    res.json(result.rows);
+                })
+                .catch(err => console.error(err.stack))
         })
-        .catch(err => console.error(err.stack))
-
-    res.render('list', {
-        title: '一覧',
-        list: list
-    });
+        .catch(err => {
+            console.error(err.stack)
+        })
 });
 
 /* GET home page. */
 router.get('/', function (req, res) {
-    const getQuery = `SELECT name FROM ub6d643505c8217a316700b16b986f48c.food`;
 
-    pgClient.query(getQuery)
-        .then(result => {
-            const list = result.rows;
-            console.log(list);
-
-            res.render('list', {
-                title: '一覧',
-                list: list
-            });
-        })
-        .catch(err => console.error(err.stack))
+    res.render('list', {
+        title: '一覧',
+    });
 });
 
 module.exports = router;

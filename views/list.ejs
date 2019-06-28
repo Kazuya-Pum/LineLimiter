@@ -3,25 +3,21 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/uikit.min.css" />
-    <script src="js/uikit.min.js"></script>
-    <script src="js/uikit-icons.min.js"></script>
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/uikit.min.css" />
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
     <title><%=title %></title>
 </head>
 <body>
     <div class="uk-container">
         <main>
             <h1>test</h1>
-            <%=list %>
-            <% list.forEach(function (value, key) { %>
-                
-            <p><%= key %>: <%= value['name'] %></p>
-            <% }); %>
+            <ul class="uk-list uk-list-divider" id="list"></ul>
         </main>
     </div>
 
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script src="js/liff-edit.js"></script>
+    <script src="/js/liff-list.js"></script>
 </body>
 </html>
