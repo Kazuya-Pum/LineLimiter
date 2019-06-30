@@ -1,12 +1,17 @@
 'use strict';
 const axios = require('axios');
 
-exports.handler = async (event) => {
+exports.handler = async (req) => {
 
-    if (!event.headers.accesstoken) {
+    if (req.session.userId) {
+        console.log('session');
+        return req.session.userId;
+    }
+
+    if (!req.headers.accesstoken) {
         throw new Error("Unauthorized");
     }
-    const accessToken = event.headers.accesstoken;
+    const accessToken = req.headers.accesstoken;
     const url = `https://api.line.me/oauth2/v2.1/verify?access_token=${accessToken}`;
 
     return axios.get(url)
@@ -22,7 +27,9 @@ exports.handler = async (event) => {
                 }
             });
         }).then(res => {
-            return res.data;
+
+            req.session.userId = res.data.userId;
+            return res.data.userId;
         }).catch(err => {
             return err;
         });

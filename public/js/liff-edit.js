@@ -2,10 +2,12 @@ $(function () {
     liff.init(
         data => {
 
-            const id = /^\?\w*id=(\d+)/.exec(this.location.search);
+            const search = /^\?\w*id=(\d+)/.exec(this.location.search);
 
-            if (!id) {
-                return;
+            if (!search) {
+                id = 0;
+            } else {
+                id = search[1];
             }
 
             const accessToken = liff.getAccessToken();
@@ -22,21 +24,23 @@ $(function () {
                     'accessToken': accessToken
                 },
                 data: {
-                    id: id[1]
+                    id: id
                 }
             })
                 .done((data) => {
-                    document.getElementById('name').value = data['name'];
-                    document.getElementById('limitDay').value = data['limit_day'];
-                    document.getElementById('place').value = data['place'];
-                    document.getElementById('memo').value = data['memo'];
-                    document.getElementById('category').value = data['category'];
+                    if (id) {
+                        document.getElementById('name').value = data['name'];
+                        document.getElementById('limitDay').value = data['limit_day'];
+                        document.getElementById('place').value = data['place'];
+                        document.getElementById('memo').value = data['memo'];
+                        document.getElementById('category').value = data['category'];
+                    }
 
                     for (let i = 0; i < data['notification_list'].length; ++i) {
 
                         const elem = $(`<label><input class="uk-checkbox" type="checkbox" name="notification" value="${data['notification_list'][i]}">${data['notification_list'][i]}日前</label>`);
 
-                        if (data['notification'].indexOf(data['notification_list'][i]) !== -1) {
+                        if (id && data['notification'].indexOf(data['notification_list'][i]) !== -1) {
                             elem.children('input').prop('checked', true);
                         }
 

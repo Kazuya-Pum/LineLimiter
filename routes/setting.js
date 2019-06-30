@@ -6,8 +6,7 @@ const token = require('./common');
 
 router.post('/', function (req, res) {
     token.handler(req)
-        .then(data => {
-            const userId = data.userId;
+        .then(userId => {
             const notification = Number(req.body.notification);
 
             if (notification == null) {
@@ -36,8 +35,7 @@ router.post('/', function (req, res) {
 router.post('/get', function (req, res) {
 
     token.handler(req)
-        .then(data => {
-            const userId = data.userId;
+        .then(userId => {
 
             const query = `SELECT notification FROM center.user WHERE user_id = '${userId}'`;
 
