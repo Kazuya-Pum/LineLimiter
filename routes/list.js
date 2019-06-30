@@ -8,8 +8,8 @@ const pgClient = require('../database').client;
 router.post('/', function (req, res) {
 
     token.handler(req)
-        .then(data => {
-            const getQuery = `SELECT name, id FROM ${data.userId}.food ORDER BY limit_day`;
+        .then(userId => {
+            const getQuery = `SELECT name, id FROM ${userId}.food ORDER BY limit_day`;
 
             pgClient.query(getQuery)
                 .then(result => {

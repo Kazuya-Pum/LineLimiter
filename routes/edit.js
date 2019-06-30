@@ -9,13 +9,12 @@ const token = require('./common');
 router.post('/', function (req, res) {
 
     token.handler(req)
-        .then(data => {
+        .then(userId => {
 
             if (!req.body.name || !req.body.limit_day) {
                 throw new Error('パラメータ不足');
             }
 
-            const userId = data.userId;
             const date = new Date(req.body.limit_day);
             const id = Number(req.body.id);
 
@@ -42,19 +41,21 @@ router.post('/', function (req, res) {
 router.post('/get', function (req, res) {
 
     token.handler(req)
-        .then(data => {
-            const userId = data.userId;
-            const id = Number(req.body.id);
-
-            if (!id) {
-                throw new Error('undefined id');
-            }
+        .then(userId => {
 
             const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
             pgClient.query(centerQuery)
                 .then(result => {
-
                     const notification_list = result.rows[0].notification_day;
+                    const id = Number(req.body.id);
+
+                    if (!id) {
+
+                        res.json({
+                            notification_list: notification_list
+                        });
+                        return;
+                    }
 
                     const query = `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = ${id}`;
 

@@ -12,11 +12,9 @@ $(function () {
                 },
                 data: {}
             })
-                // Ajax���N�G�X�g����������������
                 .done((data) => {
                     document.getElementById('notification').value = data['notification'];
                 })
-                // Ajax���N�G�X�g�����s����������
                 .fail((data) => {
                     console.log(data);
                 })
@@ -48,14 +46,12 @@ $(function () {
                 notification: document.getElementById('notification').value
             }
         })
-            // Ajax���N�G�X�g����������������
             .done((data) => {
                 UIkit.modal.alert(data)
                     .then(function () {
                         console.log('Alert closed.')
                     });
             })
-            // Ajax���N�G�X�g�����s����������
             .fail((data) => {
                 UIkit.modal.alert(data)
                     .then(function () {

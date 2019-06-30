@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const favicon = require('serve-favicon');
+const session = require('express-session');
 
 const webhook = require('./routes/webhook');
 const edit = require('./routes/edit');
@@ -28,6 +29,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
+app.use(session({
+    secret: 'line limiter',
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.use('/edit', edit);
 app.use('/list', list);
