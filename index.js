@@ -10,6 +10,7 @@ const favicon = require('serve-favicon');
 const webhook = require('./routes/webhook');
 const edit = require('./routes/edit');
 const list = require('./routes/list');
+const setting = require('./routes/setting');
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 app.use('/edit', edit);
 app.use('/list', list);
+app.use('/setting', setting);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

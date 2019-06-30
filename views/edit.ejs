@@ -12,7 +12,7 @@
 <body>
     <div class="uk-container">
         <main>
-            <form name="editForm" class="uk-form-stacked" method="post" action="/edit">
+            <form id="form" class="uk-form-stacked" method="post" action="/edit">
                 <div class="uk-margin">
                     <label class="uk-form-label" for="name">name</label>
                     <div class="uk-form-controls">
@@ -55,8 +55,10 @@
                     </div>
                 </div>
 
+                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" id="notification_day"></div>
+
                 <input type="hidden" name="userId" />
-                <button class="uk-button uk-button-primary" type="button" name="add">追加する</button>
+                <button class="uk-button uk-button-primary" type="button" id="submit">追加する</button>
             </form>
         </main>
     </div>
