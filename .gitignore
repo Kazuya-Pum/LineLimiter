@@ -62,3 +62,6 @@ typings/
 
 .vs/
 ngrok.exe
+env.yaml
+.editorconfig
+LineLimiter-27d2b53408d4.json

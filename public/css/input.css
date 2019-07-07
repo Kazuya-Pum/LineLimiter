@@ -1,0 +1,321 @@
+/* 1.top_barに状態名
+
+3.topButtonを押したときにそれぞれの入力に飛べるように
+4.各アイコンの色
+5.menu_bar
+
+6.追加アニメーション
+7.名前アニメーション
+
+
+ */
+
+
+
+body {
+    overflow: hidden;
+    height: 100%;
+    margin: 0px;
+    background-color: #E9E9E9;
+    font-size: 0; /* ←隙間なくす用 */
+}
+
+
+.top_bar {
+    position: fixed;
+    height: 8vh;
+    width: 100vw;
+    background-color: #46465A;
+}
+
+#backButton {
+    position: relative;
+    width: 3vh;
+    width: 3vh;
+    padding: 2.5vh 2.5vh 2.5vh 1vh;
+}
+
+
+/* 上下する白いの */
+.menu {
+    cursor: move;
+    position: absolute;
+    z-index: 5;
+    width: 100vw;
+    height: 150vh;
+    background-color: white;
+    top: 45vh;
+    border-radius: 25px;
+}
+
+
+
+/* swiperの操作 */
+.swiper-container {
+    width: 100%;
+    position: static;
+    z-index: 10;
+    opacity: 0;
+    height: 30vh;
+}
+
+.swiper-slide {
+    font-size: 18px;
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.swiper-scrollbar {
+    position: relative;
+    width: 76vw;
+    margin: 1vh 0px 0px 12vw;
+    background-color: white;
+}
+
+.swiper-scrollbar-drag {
+    background-color: #65D678;
+    height: 2.2px;
+    z-index: 1;
+}
+
+
+
+
+
+#nameTxt {
+    width: 40vw;
+    margin: 10vw 28vw 8vw 28vw;
+    padding: 2vw;
+    top: 4vw;
+    text-align: center;
+    border-style: solid;
+    border-color: #65D678;
+    border-radius: 10vh;
+}
+
+label {
+    position: absolute;
+    top: 8vh;
+    width: 100vw;
+    height: 100vw;
+}
+
+#photo-img {
+    position: absolute;
+    top: 8vh;
+    width: 22vw;
+    height: 22vw;
+    padding: 30vw 39vw 30vw 39vw;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+
+/* #iconButton {
+	top:8vh;
+	width:100vw;
+	height:100vw;
+	position:absolute;
+	z-index:-2;
+	
+	
+	
+	top:8vh;
+	width:22vw;
+	height:22vw;
+	padding:30vw 39vw 30vw 39vw;
+	position: absolute;
+	z-index:-1;
+}
+ */
+
+
+#timeButton {
+    width: 11vw;
+    height: 11vw;
+    margin: 0vw 1vw 0vw 1vw;
+    margin-left: 13vw;
+    padding: 3vw 3vw 2vw 3vw;
+}
+
+#placeButton {
+    top: 8vh;
+    width: 11vw;
+    height: 11vw;
+    margin: 0vw 1vw 0vw 1vw;
+    padding: 3vw 3vw 2vw 3vw;
+}
+
+#categoryButton {
+    width: 9vw;
+    height: 9vw;
+    margin: 0vw 1vw 0vw 1vw;
+    padding: 4vw 4vw 3vw 4vw;
+}
+
+#memoButton {
+    width: 11vw;
+    height: 11vw;
+    margin: 0vw 1vw 0vw 1vw;
+    margin-right: 13vw;
+    padding: 3vw 2vw 2vw 4vw;
+}
+
+#timetxt {
+    font-size: 2.5vw;
+    width: 11vw;
+    padding: 0px 3vw 0px 3vw;
+    border: none;
+    margin: 0vw 1vw 1vw 1vw;
+    margin-left: 13vw;
+    background-color: white;
+}
+
+#placetxt {
+    font-size: 2.5vw;
+    width: 11vw;
+    padding: 0px 3vw 0px 3vw;
+    border: none;
+    margin: 0vw 1vw 1vw 1vw;
+    background-color: white;
+}
+
+#categorytxt {
+    font-size: 2.5vw;
+    width: 11vw;
+    padding: 0px 3vw 0px 3vw;
+    border: none;
+    margin: 0vw 1vw 1vw 1vw;
+    background-color: white;
+}
+
+#memotxt {
+    font-size: 2.5vw;
+    width: 11vw;
+    padding: 0px 3vw 0px 3vw;
+    border: none;
+    margin: 0vw 1vw 1vw 1vw;
+    margin-right: 13vw;
+    background-color: white;
+}
+
+
+
+.topButton {
+    position: relative;
+    top: 5px;
+    left: 5%;
+}
+
+#OKButton {
+    position: relative;
+    left: 180px;
+}
+
+#submitButton {
+    position: fixed;
+    top: 77vh;
+    left: 25vw;
+    width: 50vw;
+    height: 6vh;
+    align-content: center;
+    z-index: 20;
+    border-radius: 10vh;
+    border-style: solid;
+    border-color: #65D678;
+    color: #65D678;
+    background-color: white;
+    font-weight: bold;
+    box-shadow: 0px 3px 6px 0px #898989;
+}
+
+
+
+
+.menu_bar {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    z-index: 100;
+    background-color: #65D678;
+}
+
+.menu_leftbutton {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    margin: 13px;
+}
+
+.home_button {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin: 13px;
+}
+
+.menu_rightbutton {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    margin: 13px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+.viewport {
+    width: 300px;
+    overflow: hidden;
+    margin: 0 auto;
+    -webkit-transform: translateZ(0); Optional: When heavy at iOS6+
+    padding-top:10px;
+    opacity:0;
+}
+
+.flipsnap {
+    width: 1200px; 320px(item width) * 3(item count)
+}
+
+.flipsnap:after {
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+.item {
+	margin-top:10px;
+	position:relative;
+    float: left;
+    width: 300px;
+    height:200px;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 0;
+    background: #EFEFEF;
+    color: #666;
+    z-index:11;
+}
+ */

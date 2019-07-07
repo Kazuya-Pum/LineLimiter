@@ -1,7 +1,6 @@
 $(function () {
     liff.init(
         data => {
-
             const search = /^\?\w*id=(\d+)/.exec(this.location.search);
 
             if (!search) {
@@ -29,23 +28,23 @@ $(function () {
             })
                 .done((data) => {
                     if (id) {
-                        document.getElementById('name').value = data['name'];
-                        document.getElementById('limitDay').value = data['limit_day'];
-                        document.getElementById('place').value = data['place'];
-                        document.getElementById('memo').value = data['memo'];
-                        document.getElementById('category').value = data['category'];
+                        document.getElementById('nameTxt').value = data['name'];
+                        document.getElementById('timer').value = data['limit_day'];
+                        document.getElementById('placeTxt').value = data['place'];
+                        document.getElementById('memoTxt').value = data['memo'];
+                        document.getElementById('categoryTxt').value = data['category'];
                     }
 
-                    for (let i = 0; i < data['notification_list'].length; ++i) {
+                    //for (let i = 0; i < data['notification_list'].length; ++i) {
 
-                        const elem = $(`<label><input class="uk-checkbox" type="checkbox" name="notification" value="${data['notification_list'][i]}">${data['notification_list'][i]}日前</label>`);
+                    //    const elem = $(`<label><input class="uk-checkbox" type="checkbox" name="notification" value="${data['notification_list'][i]}">${data['notification_list'][i]}日前</label>`);
 
-                        if (id && data['notification'].indexOf(data['notification_list'][i]) !== -1) {
-                            elem.children('input').prop('checked', true);
-                        }
+                    //    if (id && data['notification'].indexOf(data['notification_list'][i]) !== -1) {
+                    //        elem.children('input').prop('checked', true);
+                    //    }
 
-                        $('#notification_day').append(elem);
-                    }
+                    //    $('#notification_day').append(elem);
+                    //}
                 })
                 .fail((data) => {
                     console.log(data);
@@ -56,38 +55,23 @@ $(function () {
         }
     );
 
-    document.getElementById('submit').addEventListener('click', function () {
-
+    document.getElementById('submitButton').addEventListener('click', function () {
         const form = document.getElementById('form');
-
         if (!form.reportValidity()) {
             return;
         }
 
         const accessToken = liff.getAccessToken();
-
         if (!accessToken) {
             console.error("can't get token");
             return;
         }
 
         const param = /^\?\w*id=(\d+)/.exec(location.search);
+        const id = (param) ? param[1] : 0;
 
-        let id = 0;
-        if (param) {
-            id = param[1];
-        }
-
-        let notification = '';
-        for (let i = 0; i < form.notification.length; ++i) {
-            if (form.notification[i].checked) {
-
-                if (notification !== '') {
-                    notification += ',';
-                }
-                notification += form.notification[i].value;
-            }
-        }
+        const data = new FormData(form);
+        data.append('id', id);
 
         $.ajax({
             url: `/edit`,
@@ -95,27 +79,34 @@ $(function () {
             headers: {
                 'accessToken': accessToken
             },
-            data: {
-                id: id,
-                name: document.getElementById('name').value,
-                limit_day: document.getElementById('limitDay').value,
-                place: document.getElementById('place').value,
-                memo: document.getElementById('memo').value,
-                category: document.getElementById('category').value,
-                notification: notification
-            }
+            dataType: 'json',
+            data: data,
+            processData: false,
+            contentType: false
         })
             .done((data) => {
-                UIkit.modal.alert(data)
-                    .then(function () {
-                        console.log('Alert closed.')
-                    });
+                alert('success');
+                return;
             })
             .fail((data) => {
-                UIkit.modal.alert(data)
-                    .then(function () {
-                        console.log('Alert closed.')
-                    });
+                alert('fail');
             })
     });
 })
+
+//$('#file').change(
+//    function () {
+//        if (!this.files.length) {
+//            return;
+//        }
+
+//        var file = $(this).prop('files')[0];
+//        var fr = new FileReader();
+//        $('.preview').css('background-image', 'none');
+//        fr.onload = function () {
+//            $('.preview').css('background-image', 'url(' + fr.result + ')');
+//        }
+//        fr.readAsDataURL(file);
+//        $(".preview img").css('opacity', 0);
+//    }
+//);

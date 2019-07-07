@@ -1,69 +1,86 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script type="text/javascript" src="/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/uikit.min.css" />
-    <script src="/js/uikit.min.js"></script>
-    <script src="/js/uikit-icons.min.js"></script>
-    <title><%=title %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/input.css">
+    <script>
+        $(function () {
+            $(window).on('touchmove.noScroll', e => {
+                e.preventDefault();
+            }, { passive: false });
+        });
+    </script>
+    <title>入力画面</title>
 </head>
 <body>
-    <div class="uk-container">
-        <main>
-            <form id="form" class="uk-form-stacked" method="post" action="/edit">
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="name">name</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="name" id="name" value="<%=name%>" required />
+    <div>
+        <div>
+            <form action="/edit" method="post" enctype="multipart/form-data" id="form">
+                <p class="top_bar">
+                    <input type="image" name="backButton" id="backButton" src="/images/back.png" onclick="history.back()">
+                </p>
+                <p>
+                    <input type="button" id="submitButton" value="追加する">
+                </p>
+
+
+                <label for="file_photo">
+                    ＋写真を選択
+			<input type="file" name="file" id="file_photo" accept="image/*" style="display: none;">
+                </label>
+
+
+                <img src="/images/icon.png" id="photo-img">
+
+                <div class="menu" id="menu">
+                    <input type="text" id="nameTxt" placeholder="name" name="name" required>
+
+                    <div class="topIcon">
+                        <input type="image" id="timeButton" value="time" src="/images/time.png">
+                        <input type="image" id="placeButton" value="place" src="/images/place.png">
+                        <input type="image" id="categoryButton" value="category" src="/images/category.png">
+                        <input type="image" id="memoButton" value="memo" src="/images/memo.png">
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                期限
+			        	<input type="date" id="timer" name="limit_day" required />
+                            </div>
+                            <div class="swiper-slide">
+                                保存場所
+			        	<input type="text" id="placeTxt" name="place" placeholder="place">
+                            </div>
+                            <div class="swiper-slide">
+                                カテゴリ
+			        	<input type="text" id="categoryTxt" name="category" placeholder="category">
+                            </div>
+                            <div class="swiper-slide">
+                                メモ
+			        	<input type="text" id="memoTxt" name="memo" placeholder="memo">
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="limitDay">limitDay</label>
-                    <div class="uk-form-controls">
-                        <input type="date" name="limitDay" id="limitDay" value="<%=limit_day%>" required />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="place">place</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="place" id="place" value="<%=place%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="memo">memo</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="memo" id="memo" value="<%=memo%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="category">category</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="category" id="category" value="<%=category%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="image">image</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="imageUrl" id="image" value="<%=image_url%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" id="notification_day"></div>
-
-                <input type="hidden" name="userId" />
-                <button class="uk-button uk-button-primary" type="button" id="submit">追加する</button>
             </form>
-        </main>
+        </div>
+        <div class="menu_bar">
+            <input class="menu_leftbutton" type="button" id="input" value="i">
+            <input class="menu_leftbutton" type="Button" id="list" value="l">
+            <input class="home_button" type="Button" id="home" value="O">
+            <input class="menu_rightbutton" type="Button" id="history" value="h">
+            <input class="menu_rightbutton" type="Button" id="config" value="c">
+        </div>
     </div>
-
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script type="text/javascript" src="/js/liff-edit.js"></script>
+    <script type="text/javascript" src="/js/input.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
 </body>
 </html>

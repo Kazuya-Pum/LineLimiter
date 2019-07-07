@@ -1,25 +1,20 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const token = require('./common');
+const token = require('../common');
 
 const pgClient = require('../database').client;
 
-router.post('/', function (req, res) {
+router.post('/', token.handler, async (req, res, next) => {
+    try {
+        const userId = req.session.userId;
+        const getQuery = `SELECT name, id FROM ${userId}.food ORDER BY limit_day`;
 
-    token.handler(req)
-        .then(userId => {
-            const getQuery = `SELECT name, id FROM ${userId}.food ORDER BY limit_day`;
-
-            pgClient.query(getQuery)
-                .then(result => {
-                    res.json(result.rows);
-                })
-                .catch(err => console.error(err.stack))
-        })
-        .catch(err => {
-            console.error(err.stack)
-        })
+        const result = await pgClient.query(getQuery)
+        res.json(result.rows);
+    } catch (err) {
+        next(err);
+    }
 });
 
 /* GET home page. */
