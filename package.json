@@ -1,6 +1,6 @@
 {
   "name": "line-limiter",
-  "description": "Simple Hello World Node.js sample for Azure App Service",
+  "description": "Manage Food Limit",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
@@ -9,6 +9,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@google-cloud/storage": "^3.0.2",
     "@line/bot-sdk": "^6.8.0",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
@@ -20,8 +21,10 @@
     "express-session": "^1.16.2",
     "jquery": "^3.4.1",
     "morgan": "^1.9.1",
+    "multer": "^1.4.1",
     "pg": "^7.11.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "sharp": "^0.22.1"
   },
   "main": "index.js",
   "devDependencies": {},

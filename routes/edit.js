@@ -3,94 +3,92 @@ require('date-utils');
 const express = require('express');
 const router = express.Router();
 const pgClient = require('../database').client;
-const token = require('./common');
+const token = require('../common');
+const storage = require('../upload');
 
 // 登録
-router.post('/', function (req, res) {
+router.post('/', token.handler, storage.multer, storage.upload, async (req, res, next) => {
 
-    token.handler(req)
-        .then(userId => {
+    try {
+        const userId = req.session.userId;
+        console.log(req.body);
+        if (!req.body.name || !req.body.limit_day) {
+            throw new Error('パラメータ不足');
+        }
 
-            if (!req.body.name || !req.body.limit_day) {
-                throw new Error('パラメータ不足');
+        // TODO パラメータチェック
+
+        const id = Number(req.body.id);
+
+        const notification = (Array.isArray(req.body.notification)) ? req.body.notification.map(str => parseInt(str, 10)) : [];
+
+        const date = new Date(req.body.limit_day);
+
+        let query = '';
+        let values = [];
+        if (id) {
+
+            const getOldImage = `SELECT image_url FROM ${userId}.food WHERE id = ${id} LIMIT 1`;
+            const oldImage = await pgClient.query(getOldImage);
+
+            let imageUrl = storage.getUrl(req);
+            if (imageUrl || !req.body.image_url) {
+                storage.deleteFile(oldImage.rows[0].image_url);
+            } else if (req.body.image_url) {
+                imageUrl = oldImage.rows[0].image_url;
             }
 
-            const date = new Date(req.body.limit_day);
-            const id = Number(req.body.id);
+            query = `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7 WHERE id = $8`;
+            values = [req.body.name, date.toFormat('YYYY-MM-DD'), imageUrl, req.body.place, req.body.memo, req.body.category, notification, id]
+        } else {
+            query = `INSERT INTO ${userId}.food (name, limit_day, image_url, place, memo, category, notification_day) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+            values = [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, req.body.memo, req.body.category, notification]
+        }
 
-            let query = '';
-            if (id) {
-                query = `UPDATE ${userId}.food SET name = '${req.body.name}', limit_day = '${date.toFormat('YYYY-MM-DD')}', image_url = '${req.body.imageUrl}', place = '${req.body.place}', memo = '${req.body.memo}', category = '${req.body.category}', notification_day = ARRAY[${req.body.notification}] WHERE id = ${id}`;
-            } else {
-                query = `INSERT INTO ${userId}.food (name, limit_day, image_url, place, memo, category, notification_day) VALUES ('${req.body.name}', '${date.toFormat('YYYY-MM-DD')}', '${req.body.imageUrl}', '${req.body.place}', '${req.body.memo}', '${req.body.category}', ARRAY[${req.body.notification}])`;
-            }
-            console.log(query);
-            pgClient.query(query)
-                .then(res => console.log("add food"))
-                .catch(err => console.error(err.stack))
+        await pgClient.query(query, values);
+        console.log("edit food");
+        res.send("edit food");
 
-            res.sendStatus(200);
-        })
-        .catch(err => {
-            console.log(err.stack);
-            res.sendStatus(400);
-        })
+    } catch (err) {
+        next(err);
+    }
 });
 
 // Ajax
-router.post('/get', function (req, res) {
+router.post('/get', token.handler, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
+        const centerRes = await pgClient.query(centerQuery);
+        const notification_list = centerRes.rows[0].notification_day;
+        const id = Number(req.body.id);
+        if (!id) {
+            res.json({
+                notification_list: notification_list
+            });
+        } else {
+            const query = `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = ${id}`;
 
-    token.handler(req)
-        .then(userId => {
+            const userRes = await pgClient.query(query);
+            if (userRes) {
+                const date = new Date(userRes.rows[0].limit_day);
 
-            const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
-            pgClient.query(centerQuery)
-                .then(result => {
-                    const notification_list = result.rows[0].notification_day;
-                    const id = Number(req.body.id);
-
-                    if (!id) {
-
-                        res.json({
-                            notification_list: notification_list
-                        });
-                        return;
-                    }
-
-                    const query = `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = ${id}`;
-
-                    pgClient.query(query)
-                        .then(result => {
-
-                            const date = new Date(result.rows[0].limit_day);
-
-                            res.json({
-                                name: result.rows[0].name,
-                                limit_day: date.toFormat('YYYY-MM-DD'),
-                                place: result.rows[0].place,
-                                memo: result.rows[0].memo,
-                                category: result.rows[0].category,
-                                image_url: result.rows[0].image_url,
-                                notification: result.rows[0].notification_day,
-                                notification_list: notification_list
-                            });
-                        })
-                        .catch(err => {
-                            console.error(err.stack);
-                            res.send(err);
-                        })
-
-                })
-                .catch(err => {
-                    console.error(err.stack);
-                    res.send(err);
-                })
-        })
-        .catch(err => {
-            console.error(err.stack);
-            res.send(err);
-        })
-
+                res.json({
+                    name: userRes.rows[0].name,
+                    limit_day: date.toFormat('YYYY-MM-DD'),
+                    place: userRes.rows[0].place,
+                    memo: userRes.rows[0].memo,
+                    category: userRes.rows[0].category,
+                    image_url: userRes.rows[0].image_url,
+                    notification: userRes.rows[0].notification_day,
+                    notification_list: notification_list
+                });
+            }
+        }
+    } catch (err) {
+        console.error(err.stack);
+        res.send(err);
+    }
 });
 
 // 入力

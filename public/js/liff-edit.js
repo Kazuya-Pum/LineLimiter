@@ -1,121 +1,106 @@
-$(function () {
+'use strict';
+
+document.addEventListener("DOMContentLoaded", () => {
     liff.init(
-        data => {
+        async (data) => {
+            try {
+                const search = /^\?\w*id=(\d+)/.exec(this.location.search);
+                const id = (search) ? search[1] : 0;
 
-            const search = /^\?\w*id=(\d+)/.exec(this.location.search);
+                const accessToken = liff.getAccessToken();
 
-            if (!search) {
-                id = 0;
-            } else {
-                id = search[1];
-            }
-
-            const accessToken = liff.getAccessToken();
-
-            if (!accessToken) {
-                console.error("can't get token");
-                return;
-            }
-
-            $.ajax({
-                url: `/edit/get`,
-                type: 'POST',
-                headers: {
-                    'accessToken': accessToken
-                },
-                data: {
-                    id: id
+                if (!accessToken) {
+                    throw new Error("can't get token");
                 }
-            })
-                .done((data) => {
-                    if (id) {
-                        document.getElementById('name').value = data['name'];
-                        document.getElementById('limitDay').value = data['limit_day'];
-                        document.getElementById('place').value = data['place'];
-                        document.getElementById('memo').value = data['memo'];
-                        document.getElementById('category').value = data['category'];
+
+                loading(true);
+
+                const info = await (await fetch('/edit/get', {
+                    method: 'POST',
+                    headers: {
+                        'accessToken': accessToken,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id: id
+                    })
+                })).json();
+
+                const notification_day = document.getElementById('notification_day');
+
+                for (let i = 0; i < info.notification_list.length; ++i) {
+
+                    let checked = '';
+                    if (id && info.notification.indexOf(info.notification_list[i]) !== -1) {
+                        checked = 'checked';
                     }
 
-                    for (let i = 0; i < data['notification_list'].length; ++i) {
+                    const notifyLabel = `<label><input type="checkbox" value="${info.notification_list[i]}" name="notification[]" ${checked}><span class="button">${info.notification_list[i]}日前</span></label>`;
 
-                        const elem = $(`<label><input class="uk-checkbox" type="checkbox" name="notification" value="${data['notification_list'][i]}">${data['notification_list'][i]}日前</label>`);
+                    notification_day.insertAdjacentHTML('beforeend', notifyLabel);
+                }
 
-                        if (id && data['notification'].indexOf(data['notification_list'][i]) !== -1) {
-                            elem.children('input').prop('checked', true);
-                        }
-
-                        $('#notification_day').append(elem);
-                    }
-                })
-                .fail((data) => {
-                    console.log(data);
-                })
+                if (id) {
+                    document.getElementById('nameTxt').value = info.name;
+                    document.getElementById('timer').value = info.limit_day;
+                    document.getElementById('placeTxt').value = info.place || '';
+                    document.getElementById('preview').style.backgroundImage = `url(${info.image_url || ''})`;
+                    document.getElementById('image_url').value = info.image_url || '';
+                    document.getElementsByName('category')[(info.category !== null) ? info.category : 3].checked = true;
+                    document.getElementById('memoTxt').value = info.memo || '';
+                }
+            } catch (err) {
+                console.log(err.message);
+            } finally {
+                loading(false);
+            }
         },
         err => {
-            console.log('error', err);
+            console.log(err.message);
+            loading(false);
         }
     );
 
-    document.getElementById('submit').addEventListener('click', function () {
-
-        const form = document.getElementById('form');
-
-        if (!form.reportValidity()) {
-            return;
-        }
-
-        const accessToken = liff.getAccessToken();
-
-        if (!accessToken) {
-            console.error("can't get token");
-            return;
-        }
-
-        const param = /^\?\w*id=(\d+)/.exec(location.search);
-
-        let id = 0;
-        if (param) {
-            id = param[1];
-        }
-
-        let notification = '';
-        for (let i = 0; i < form.notification.length; ++i) {
-            if (form.notification[i].checked) {
-
-                if (notification !== '') {
-                    notification += ',';
-                }
-                notification += form.notification[i].value;
+    document.getElementById('submitButton').addEventListener('click', async () => {
+        try {
+            const form = document.getElementById('form');
+            if (!form.reportValidity()) {
+                return;
             }
-        }
 
-        $.ajax({
-            url: `/edit`,
-            type: 'POST',
-            headers: {
-                'accessToken': accessToken
-            },
-            data: {
-                id: id,
-                name: document.getElementById('name').value,
-                limit_day: document.getElementById('limitDay').value,
-                place: document.getElementById('place').value,
-                memo: document.getElementById('memo').value,
-                category: document.getElementById('category').value,
-                notification: notification
+            loading(true);
+
+            const accessToken = liff.getAccessToken();
+            if (!accessToken) {
+                throw new Error("can't get token");
             }
-        })
-            .done((data) => {
-                UIkit.modal.alert(data)
-                    .then(function () {
-                        console.log('Alert closed.')
-                    });
-            })
-            .fail((data) => {
-                UIkit.modal.alert(data)
-                    .then(function () {
-                        console.log('Alert closed.')
-                    });
-            })
+
+            const param = /^\?\w*id=(\d+)/.exec(location.search);
+            const id = (param) ? param[1] : 0;
+
+            const editData = new FormData(form);
+            editData.append('id', id);
+
+            const res = await fetch('/edit', {
+                method: 'POST',
+                headers: {
+                    'accessToken': accessToken,
+                },
+                credentials: 'same-origin',
+                body: editData
+            });
+
+            if (res.ok) {
+                alert('success');
+            }
+        } catch (err) {
+            alert(err);
+        } finally {
+            loading(false);
+        }
     });
-})
+
+    function loading(enabled) {
+        document.getElementById('loader').style.visibility = (enabled) ? "visible" : "hidden";
+    }
+});

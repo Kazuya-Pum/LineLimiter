@@ -1,23 +1,107 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/uikit.min.css" />
-    <script src="/js/uikit.min.js"></script>
-    <script src="/js/uikit-icons.min.js"></script>
-    <title><%=title %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/list.css">
+    <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
+    <title><%=title%></title>
 </head>
-<body>
-    <div class="uk-container">
-        <main>
-            <h1>test</h1>
-            <ul class="uk-list uk-list-divider" id="list"></ul>
-        </main>
-    </div>
 
-    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script src="/js/liff-list.js"></script>
+<body>
+    <div class="ll-container">
+        <div class="ll-top">
+            <div class="ll-top_bar">
+                <input type="search" id="search" placeholder="検索">
+            </div>
+            <div class="ll-top-icons">
+                <div>
+                    <input type="image" class="ll-icon" id="allButton" value="all" src="/images/category.png">
+                    <p class="ll-icon-txt">すべて</p>
+                </div>
+                <div>
+                    <input type="image" class="ll-icon" id="seasonerButton" value="seasoner" src="/images/seasoner.png">
+                    <p class="ll-icon-txt">調味料</p>
+                </div>
+                <div>
+                    <input type="image" class="ll-icon" id="freshButton" value="fresh" src="/images/fresh.png">
+                    <p class="ll-icon-txt">生鮮食品</p>
+                </div>
+                <div>
+                    <input type="image" class="ll-icon" id="preservedButton" value="preserved" src="/images/preserved.png">
+                    <p class="ll-icon-txt">保存食</p>
+                </div>
+                <div>
+                    <input type="image" class="ll-icon" id="otherButton" value="other" src="/images/other.png">
+                    <p class="ll-icon-txt">保存食</p>
+                </div>
+            </div>
+            <div class="swiper-scrollbar"></div>
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" id="list-all">
+                </div>
+                <div class="swiper-slide" id="list-0">
+                </div>
+                <div class="swiper-slide" id="list-1">
+                </div>
+                <div class="swiper-slide" id="list-2">
+                </div>
+                <div class="swiper-slide" id="list-3">
+                </div>
+            </div>
+        </div>
+
+        <div id="info-tab" class="ll-info-tab">
+            <div class="ll-top_bar">
+                <button type="button" id="backButton" class="ll-back-btn"></button>
+                <span class="ll-top-bar-text">詳細</span>
+            </div>
+            <div id="infoImage" class="ll-info-image"></div>
+            <div class="ll-info-bord">
+                <div>
+                    <form action="/edit" method="get">
+                        <button id="editButton" class="ll-edit-btn" type="submit" name="id" value="0"></button>
+                    </form>
+                    <p id="infoName" class="ll-info-name"></p>
+                </div>
+                <div class="ll-info-item">
+                    <span>賞味期限</span>
+                    <span id="infoLimit"></span>
+                </div>
+                <div class="ll-info-item">
+                    <span>保存場所</span>
+                    <span id="infoPlace"></span>
+                </div>
+                <div class="ll-info-item">
+                    <span>カテゴリ</span>
+                    <span id="infoCategory"></span>
+                </div>
+
+                <button type="button" id="useButton" class="ll-info-btn input-hide">
+                    <img src="/images/fire.svg" />
+                    消費
+                </button>
+            </div>
+        </div>
+
+        <form class="menu_bar input-hide" method="get">
+            <button type="submit" formaction="/edit"></button>
+            <button type="button" disabled></button>
+            <button type="submit"></button>
+            <button type="submit" formaction="/setting"></button>
+        </form>
+    </div>
+    <div id="loader" class="ll-loading">
+        <div class="loader"></div>
+        <div class="ll-loader-back"></div>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script type="text/javascript" src="/js/liff-list.js"></script>
+    <script type="text/javascript" src="/js/list.js" async></script>
 </body>
 </html>

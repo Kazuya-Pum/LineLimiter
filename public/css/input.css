@@ -1,0 +1,337 @@
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    background-color: #E9E9E9;
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+}
+
+/* 上下する白いの */
+.menu {
+    cursor: move;
+    position: absolute;
+    z-index: 5;
+    width: 100vw;
+    height: 150vh;
+    background-color: white;
+    top: 45vh;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* swiperの操作 */
+.swiper-container {
+    position: static;
+    z-index: 10;
+    opacity: 0;
+    height: 30vh;
+    margin-top: 15px;
+    margin-left: 30px;
+    margin-right: 30px;
+    width: auto;
+}
+
+.swiper-slide {
+    font-size: 16px;
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input {
+    width: 100%;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.inout-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .inout-row > input {
+        border: none;
+        text-align: right;
+        background-color: white;
+        padding-right: 10px;
+    }
+
+.input-border {
+    border-top: 1px solid lightgray;
+}
+
+.swiper-scrollbar {
+    position: relative;
+    width: 76vw;
+    margin: 1vh 0px 0px 12vw;
+    background-color: white;
+}
+
+.swiper-scrollbar-drag {
+    background-color: #65D678;
+    height: 2.2px;
+    z-index: 1;
+}
+
+#nameTxt {
+    width: 40vw;
+    padding: 2vw;
+    text-align: center;
+    border: none;
+    border-bottom: 2px solid;
+    border-color: #65D678;
+    margin-top: 20px;
+}
+
+.img-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vw;
+}
+
+.topIcon {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: auto;
+    padding-left: 10vw;
+    padding-right: 10vw;
+}
+
+    .topIcon > img {
+        width: 11vw;
+        height: 11vw;
+    }
+
+.ll-icon {
+    width: 11vw;
+    height: 11vw;
+}
+
+.ll-icon-text {
+    margin: 0;
+    font-size: 2.5vw;
+    text-align: center;
+    border: none;
+    background-color: white;
+    z-index: 10;
+}
+
+#photo-img {
+    width: 22vw;
+    height: 22vw;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.preview {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 4;
+}
+
+.topButton {
+    position: relative;
+    top: 5px;
+    left: 5%;
+}
+
+#OKButton {
+    position: relative;
+    left: 180px;
+}
+
+.ll-submit-block {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    position: fixed;
+    bottom: 25vw;
+    z-index: 10;
+}
+
+#submitButton {
+    width: 50vw;
+    height: 3em;
+    align-content: center;
+    border-radius: 10vw;
+    border-style: solid;
+    border-color: #65D678;
+    color: #65D678;
+    background-color: white;
+    font-weight: bold;
+    box-shadow: 0px 3px 6px 0px #898989;
+}
+
+.menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10vw;
+    flex-direction: column;
+}
+
+    .menu-top > div {
+        width: 30vw;
+        border: 2px solid;
+        border-color: lightgray;
+        border-radius: 2px;
+        margin-top: 10px;
+    }
+
+.menu_bar {
+    position: fixed;
+    bottom: 0px;
+    width: 100vw;
+    height: 15vw;
+    z-index: 100;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid;
+    border-color: lightgray;
+}
+
+    .menu_bar > button {
+        width: 10vw;
+        height: 100%;
+        background-image: url(/images/time.png);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: initial;
+        border: none;
+    }
+
+@media (max-height: 450px) {
+    .input-hide {
+        display: none;
+    }
+}
+
+.toggle-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+    .toggle-buttons [type=radio],
+    .toggle-buttons [type=checkbox] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+    }
+
+    .toggle-buttons .button {
+        z-index: 1;
+        box-shadow: 0px 3px 4px 0px #898989;
+    }
+
+    .toggle-buttons :checked + .button {
+        background-color: #65D678;
+        color: white;
+        box-shadow: none;
+    }
+
+    .toggle-buttons :disabled + .button {
+        cursor: not-allowed;
+        opacity: .6;
+        color: #def;
+    }
+
+.button {
+    display: inline-block;
+    padding: .1em 0.5em;
+    border-radius: 20px;
+    text-align: center;
+    color: #65D678;
+    background-color: white;
+    cursor: pointer;
+    border: 2px solid #65D678;
+}
+
+    .button:disabled {
+        cursor: not-allowed;
+        opacity: .6;
+        color: #def;
+    }
+
+
+.ll-memo-list {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    overflow-y: scroll;
+    max-height: 20vh;
+}
+
+.ll-memo-block {
+    display: inline-block;
+    position: relative;
+    border-radius: 1em;
+    margin: 0em 0.5em 1em 0.5em;
+    max-width: calc(100% - 1em);
+    border: 1px solid #65D678;
+}
+
+.ll-memo-dummy {
+    opacity: 0;
+    display: inline-block;
+    overflow: hidden;
+    min-width: 1em;
+    max-width: 70vw;
+    height: 1.4em;
+    padding: 0 1em;
+    white-space: nowrap;
+}
+
+.ll-memo-input {
+    position: absolute;
+    top: 0.2em;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    border: none;
+    background: none;
+}
+
+#memoAddBtn {
+    border: none;
+    border-radius: 1em;
+    background-color: #65D678;
+    color: white;
+    width: 1.4em;
+    height: 1.4em;
+    font-size: 20px;
+}
+
+    #memoAddBtn:active {
+        background-color: green;
+        box-shadow: 0 0 1px 0 lightgray inset;
+    }

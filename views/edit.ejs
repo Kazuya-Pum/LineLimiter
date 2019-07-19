@@ -1,69 +1,132 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/uikit.min.css" />
-    <script src="/js/uikit.min.js"></script>
-    <script src="/js/uikit-icons.min.js"></script>
-    <title><%=title %></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
+    <link rel="stylesheet" type="text/css" href="/css/input.css" media="all">
+    <title>入力画面</title>
 </head>
 <body>
-    <div class="uk-container">
-        <main>
-            <form id="form" class="uk-form-stacked" method="post" action="/edit">
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="name">name</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="name" id="name" value="<%=name%>" required />
+    <div>
+        <div>
+            <form action="/edit" method="post" enctype="multipart/form-data" id="form">
+                <label for="file_photo" id="preview" class="img-label preview">
+                    <input type="file" name="file" id="file_photo" accept="image/*" style="display: none;">
+                    <input type="hidden" name="image_url" id="image_url" />
+                    <img src="/images/icon.png" id="photo-img">
+                </label>
+                <div class="menu" id="menu">
+                    <div class="menu-top" id="menuTop">
+                        <div></div>
+                        <input type="text" id="nameTxt" placeholder="食品名を入力" name="name" required>
+                    </div>
+                    <div class="topIcon">
+                        <div class="nav-btn">
+                            <img class="ll-icon" src="/images/time.png" alt="time" />
+                            <p class="ll-icon-text">期限</p>
+                        </div>
+                        <div class="nav-btn">
+                            <img class="ll-icon" src="/images/place.png" alt="place">
+                            <p class="ll-icon-text">保存場所</p>
+                        </div>
+                        <div class="nav-btn">
+                            <img class="ll-icon" src="/images/category.png" alt="category">
+                            <p class="ll-icon-text">カテゴリ</p>
+                        </div>
+                        <div class="nav-btn">
+                            <img class="ll-icon" src="/images/memo.png" alt="memo">
+                            <p class="ll-icon-text">メモ</p>
+                        </div>
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+                    <div class="swiper-container" id="container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="input inout-row input-border">
+                                    <label for="timer">賞味期限</label>
+                                    <input type="date" id="timer" name="limit_day" required />
+                                </div>
+                                <div class="input input-border">
+                                    <label>通知日</label>
+                                    <div class="toggle-buttons" id="notification_day"></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="input inout-row input-border">
+                                    <label for="placeTxt">保存場所</label>
+                                    <input type="text" id="placeTxt" name="place" placeholder="保存場所を入力">
+                                </div>
+                                <div class="toggle-buttons">
+                                    <label>
+                                        <input type="radio" name="placeRadio" value="冷蔵庫" />
+                                        <span class="button">冷蔵庫</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="placeRadio" value="冷凍庫" />
+                                        <span class="button">冷凍庫</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="placeRadio" value="常温" />
+                                        <span class="button">常温</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="input input-border">
+                                    <label>カテゴリ</label>
+                                    <div class="toggle-buttons input">
+                                        <label>
+                                            <input type="radio" name="category" value="0" />
+                                            <span class="button">調味料</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="category" value="1" />
+                                            <span class="button">生鮮</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="category" value="2" />
+                                            <span class="button">保存食</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="category" value="3" />
+                                            <span class="button">その他</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="input input-border">
+                                    <label>メモ</label>
+                                    <div id="memoList" class="input ll-memo-list">
+                                        <button type="button" id="memoAddBtn">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="limitDay">limitDay</label>
-                    <div class="uk-form-controls">
-                        <input type="date" name="limitDay" id="limitDay" value="<%=limit_day%>" required />
-                    </div>
+                <div class="input-hide ll-submit-block">
+                    <button type="button" id="submitButton">保存</button>
                 </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="place">place</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="place" id="place" value="<%=place%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="memo">memo</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="memo" id="memo" value="<%=memo%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="category">category</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="category" id="category" value="<%=category%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="image">image</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" type="text" name="imageUrl" id="image" value="<%=image_url%>" />
-                    </div>
-                </div>
-
-                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" id="notification_day"></div>
-
-                <input type="hidden" name="userId" />
-                <button class="uk-button uk-button-primary" type="button" id="submit">追加する</button>
             </form>
-        </main>
+        </div>
+        <form class="menu_bar input-hide" method="get">
+            <button type="submit" disabled></button>
+            <button type="submit" formaction="/list"></button>
+            <button type="button"></button>
+            <button type="submit" formaction="/setting"></button>
+        </form>
     </div>
-
+    <div id="loader" class="ll-loading">
+        <div class="loader"></div>
+        <div class="ll-loader-back"></div>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script type="text/javascript" src="/js/liff-edit.js"></script>
+    <script type="text/javascript" src="/js/index.js" async></script>
 </body>
 </html>

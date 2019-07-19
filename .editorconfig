@@ -1,4 +1,4 @@
 root = true
 
-[*.{js,ejs,css]
+[*.{js,ejs,css}]
 charset = utf-8

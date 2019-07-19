@@ -2,59 +2,44 @@
 const express = require('express');
 const router = express.Router();
 const pgClient = require('../database').client;
-const token = require('./common');
+const token = require('../common');
 
-router.post('/', function (req, res) {
-    token.handler(req)
-        .then(userId => {
-            const notification = Number(req.body.notification);
+router.post('/', token.handler, async (req, res, next) => {
+    try {
+        const userId = req.session.userId;
+        const notification = Number(req.body.notification);
 
-            if (notification == null) {
-                throw new Error('undefined notification');
-            }
+        if (notification == null) {
+            throw new Error('undefined notification');
+        }
 
-            const query = `UPDATE center.user SET notification = ${notification} WHERE user_id = '${userId}'`;
+        const query = `UPDATE center.user SET notification = ${notification} WHERE user_id = '${userId}'`;
 
-            pgClient.query(query)
-                .then(result => {
+        await pgClient.query(query);
+        res.sendStatus(200);
 
-                    res.sendStatus(200);
-                })
-                .catch(err => {
-                    console.error(err.stack);
-                    res.send(err);
-                })
-        })
-        .catch(err => {
-            console.error(err.stack);
-            res.send(err);
-        })
+    } catch (err) {
+        next(err);
+    }
 })
 
 // Ajax
-router.post('/get', function (req, res) {
+router.post('/get', token.handler, async (req, res, next) => {
 
-    token.handler(req)
-        .then(userId => {
+    try {
+        const userId = req.session.userId;
+        const query = `SELECT notification FROM center.user WHERE user_id = '${userId}'`;
 
-            const query = `SELECT notification FROM center.user WHERE user_id = '${userId}'`;
+        const result = await pgClient.query(query);
 
-            pgClient.query(query)
-                .then(result => {
+        res.json({
+            notification: result.rows[0].notification
+        });
 
-                    res.json({
-                        notification: result.rows[0].notification
-                    });
-                })
-                .catch(err => {
-                    console.error(err.stack);
-                    res.send(err);
-                })
-        })
-        .catch(err => {
-            console.error(err.stack);
-            res.send(err);
-        })
+    }
+    catch (err) {
+        next(err);
+    }
 });
 
 /* GET home page. */
