@@ -20,7 +20,7 @@ const multer = Multer({
 }).single('file');
 
 const storage = new Storage();
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET || 'linelimiter.appspot.com');
+const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
 async function upload(req, res, next) {
     try {
@@ -29,6 +29,7 @@ async function upload(req, res, next) {
         }
 
         const data = await sharp(req.file.buffer)
+            .rotate()
             .resize(100, 100)
             .png()
             .toBuffer();
@@ -60,26 +61,45 @@ async function upload(req, res, next) {
 }
 
 function getUrl(req) {
-    return (req.file) ? req.file.cloudStoragePublicUrl : '';
+    return (req.file) ? req.file.cloudStoragePublicUrl || '' : '';
 }
 
 async function deleteFile(url) {
+    try {
+        const fileName = url.match(`^https:\/\/storage.googleapis.com\/${bucket.name}\/(.+)$`);
+        if (!fileName[1]) {
+            return;
+        }
 
-    const fileName = url.match(/^https:\/\/storage.googleapis.com\/.+\/(.+)$/);
-
-    if (!fileName[1]) {
-        return;
+        return await storage
+            .bucket(bucket.name)
+            .file(fileName[1])
+            .delete();
+    } catch (err) {
+        throw err;
     }
+}
 
-    return await storage
-        .bucket(bucket.name)
-        .file(filename[1])
-        .delete();
+async function deleteUser(userId) {
+    try {
+        if (!userId) {
+            return;
+        }
+
+        return await storage
+            .bucket(bucket.name)
+            .deleteFiles({
+                'prefix': `${userId}/`
+            });
+    } catch (err) {
+        throw err;
+    }
 }
 
 module.exports = {
     multer,
     upload,
     deleteFile,
+    deleteUser,
     getUrl
 };

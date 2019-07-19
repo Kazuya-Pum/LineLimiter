@@ -27,8 +27,19 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
         let query = '';
         let values = [];
         if (id) {
+
+            const getOldImage = `SELECT image_url FROM ${userId}.food WHERE id = ${id} LIMIT 1`;
+            const oldImage = await pgClient.query(getOldImage);
+
+            let imageUrl = storage.getUrl(req);
+            if (imageUrl || !req.body.image_url) {
+                storage.deleteFile(oldImage.rows[0].image_url);
+            } else if (req.body.image_url) {
+                imageUrl = oldImage.rows[0].image_url;
+            }
+
             query = `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7 WHERE id = $8`;
-            values = [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, req.body.memo, req.body.category, notification, id]
+            values = [req.body.name, date.toFormat('YYYY-MM-DD'), imageUrl, req.body.place, req.body.memo, req.body.category, notification, id]
         } else {
             query = `INSERT INTO ${userId}.food (name, limit_day, image_url, place, memo, category, notification_day) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
             values = [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, req.body.memo, req.body.category, notification]
@@ -52,7 +63,6 @@ router.post('/get', token.handler, async (req, res) => {
         const notification_list = centerRes.rows[0].notification_day;
         const id = Number(req.body.id);
         if (!id) {
-
             res.json({
                 notification_list: notification_list
             });
@@ -60,7 +70,6 @@ router.post('/get', token.handler, async (req, res) => {
             const query = `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = ${id}`;
 
             const userRes = await pgClient.query(query);
-
             if (userRes) {
                 const date = new Date(userRes.rows[0].limit_day);
 
