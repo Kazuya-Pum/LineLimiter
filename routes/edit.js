@@ -22,6 +22,13 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 
         const notification = (Array.isArray(req.body.notification)) ? req.body.notification.map(str => parseInt(str, 10)) : [];
 
+        const memo = (Array.isArray(req.body.memo)) ? req.body.memo.filter((str) => {
+            const _str = str.trim();
+            if (_str != '' && _str.length) {
+                return true;
+            }
+        }) : [];
+
         const date = new Date(req.body.limit_day);
 
         let query = '';
@@ -33,16 +40,17 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 
             let imageUrl = storage.getUrl(req);
             if (imageUrl || !req.body.image_url) {
+                // TODO 他に同じURLを使っているデータがないかチェックしてから消す
                 storage.deleteFile(oldImage.rows[0].image_url);
             } else if (req.body.image_url) {
                 imageUrl = oldImage.rows[0].image_url;
             }
 
-            query = `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7 WHERE id = $8`;
-            values = [req.body.name, date.toFormat('YYYY-MM-DD'), imageUrl, req.body.place, req.body.memo, req.body.category, notification, id]
+            query = `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7, enabled = TRUE WHERE id = $8`;
+            values = [req.body.name, date.toFormat('YYYY-MM-DD'), imageUrl, req.body.place, memo, req.body.category, notification, id]
         } else {
             query = `INSERT INTO ${userId}.food (name, limit_day, image_url, place, memo, category, notification_day) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-            values = [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, req.body.memo, req.body.category, notification]
+            values = [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, memo, req.body.category, notification]
         }
 
         await pgClient.query(query, values);

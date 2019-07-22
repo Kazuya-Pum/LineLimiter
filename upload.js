@@ -34,15 +34,18 @@ async function upload(req, res, next) {
             .png()
             .toBuffer();
 
-        const uploadFile = bucket.file(req.session.userId + "/" + req.file.originalname);
+        const time = new Date();
+
+        const uploadFile = bucket.file(req.session.userId + "/" + req.file.originalname.match(/^(.+)\..+$/)[1] + time.getTime() + ".png");
         const uploadStream = uploadFile.createWriteStream({
             public: true,
             contentType: 'image/png',
             gzip: 'auto',
             resumable: false,
-            //metadata: {
-            //    cacheControl: 'public, max-age=31536000',
-            //}
+            // cacheControl: 'public, max-age=31536000',
+            // metadata: {
+            //     "Content-Length": data.length
+            // }
         });
 
         uploadStream.on('error', (err) => {

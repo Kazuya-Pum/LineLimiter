@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const btn2 = btn.cloneNode(true);
                     btn2.addEventListener('click', () => { togleInfo(info[i].id); });
 
-                    switch (info[i].category || 3) {
+                    switch (info[i].category) {
                         case 0:
                             list0.appendChild(btn2);
                             break;
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         infoBord.classList.toggle('ll-open');
         history.pushState(null, null, null);
 
-        if (infoBord.classList.contains('ll-open')) {
+        if (infoBord.classList.contains('ll-open') && id != (infoBord.dataset.id || 0)) {
 
             loading(true);
 
@@ -106,11 +106,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const infoLimit = new Date(itemInfo.limit_day);
 
+            let categoryTxt = '';
+            switch (itemInfo.category) {
+                case 0:
+                    categoryTxt = '調味料';
+                    break;
+                case 1:
+                    categoryTxt = '生鮮食品';
+                    break;
+                case 2:
+                    categoryTxt = '保存食';
+                    break;
+                case 3:
+                default:
+                    categoryTxt = 'その他';
+                    break;
+            }
+
+            infoBord.setAttribute('data-id', id);
             document.getElementById('editButton').value = id;
             document.getElementById('infoName').textContent = itemInfo.name;
             document.getElementById('infoLimit').textContent = `${infoLimit.getFullYear()}/${infoLimit.getMonth()}/${infoLimit.getDate()}`;
             document.getElementById('infoPlace').textContent = itemInfo.place || '';
-            document.getElementById('infoCategory').textContent = itemInfo.category || '';
+            document.getElementById('infoCategory').textContent = categoryTxt;
             document.getElementById('infoImage').style.backgroundImage = `url(${itemInfo.image_url || '/images/icon.png'})`;
             switchUseBtn(itemInfo.enabled);
 

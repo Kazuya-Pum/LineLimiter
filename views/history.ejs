@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="jp">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
     <title><%=title%></title>
 </head>
+
 <body>
     <div class="ll-container">
         <div class="ll-top">
@@ -28,12 +30,13 @@
                     <p class="ll-icon-txt">生鮮食品</p>
                 </div>
                 <div>
-                    <input type="image" class="ll-icon" id="preservedButton" value="preserved" src="/images/preserved.png">
+                    <input type="image" class="ll-icon" id="preservedButton" value="preserved"
+                        src="/images/preserved.png">
                     <p class="ll-icon-txt">保存食</p>
                 </div>
                 <div>
                     <input type="image" class="ll-icon" id="otherButton" value="other" src="/images/other.png">
-                    <p class="ll-icon-txt">保存食</p>
+                    <p class="ll-icon-txt">その他</p>
                 </div>
             </div>
             <div class="swiper-scrollbar"></div>
@@ -52,7 +55,6 @@
                 </div>
             </div>
         </div>
-
         <div id="info-tab" class="ll-info-tab">
             <div class="ll-top_bar">
                 <button type="button" id="backButton" class="ll-back-btn"></button>
@@ -61,10 +63,12 @@
             <div id="infoImage" class="ll-info-image"></div>
             <div class="ll-info-bord">
                 <div>
-                    <form action="/edit" method="get">
-                        <button id="editButton" class="ll-edit-btn" type="submit" name="id" value="0"></button>
-                    </form>
-                    <p id="infoName" class="ll-info-name"></p>
+                    <label for="trigger" class="ll-del-btn">
+                        <svg viewBox="0 0 512 512">
+                            <use href="/images/ll-icons.svg#delIcon"></use>
+                        </svg>
+                    </label>
+                    <p name="infoName" class="ll-info-name"></p>
                 </div>
                 <div class="ll-info-item">
                     <span>賞味期限</span>
@@ -78,29 +82,40 @@
                     <span>カテゴリ</span>
                     <span id="infoCategory"></span>
                 </div>
-
-                <button type="button" id="useButton" class="ll-info-btn input-hide">
+                <form action="/edit" method="get" id="toEdit"></form>
+                <button type="submit" id="editButton" form="toEdit" class="ll-info-btn input-hide" name="id">
                     <img src="/images/fire.svg" />
-                    消費
+                    追加
                 </button>
             </div>
         </div>
-
         <form class="menu_bar input-hide" method="get">
             <button type="submit" formaction="/edit"></button>
+            <button type="submit" formaction="/list"></button>
             <button type="button" disabled></button>
-            <button type="submit" formaction="/history"></button>
             <button type="submit" formaction="/setting"></button>
         </form>
+    </div>
+    <div class="modal_wrap">
+        <input id="trigger" type="checkbox">
+        <div class="modal_overlay">
+            <label for="trigger" class="modal_trigger"></label>
+            <div class="modal_content">
+                <label for="trigger" class="close_button">✖️</label>
+                <h2>確認</h2>
+                <p><span name="infoName"></span>を履歴から削除しますか？</p>
+                <button type="button" id="delSubmit" class="ll-del-submit">削除</button>
+            </div>
+        </div>
     </div>
     <div id="loader" class="ll-loading">
         <div class="loader"></div>
         <div class="ll-loader-back"></div>
     </div>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script type="text/javascript" src="/js/liff-list.js"></script>
+    <script type="text/javascript" src="/js/liff-history.js"></script>
     <script type="text/javascript" src="/js/list.js" async></script>
 </body>
+
 </html>

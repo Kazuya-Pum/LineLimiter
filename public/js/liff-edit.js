@@ -40,6 +40,36 @@ document.addEventListener("DOMContentLoaded", () => {
                     notification_day.insertAdjacentHTML('beforeend', notifyLabel);
                 }
 
+                const memoList = document.getElementById('memoList');
+
+                const updateValue = (value, dummy) => {
+                    dummy.textContent = value;
+                };
+
+                for (let i = 0; i < info.memo.length; ++i) {
+                    const memoBlock = document.createElement('div');
+                    memoBlock.classList.add('ll-memo-block');
+
+                    const memoDummy = document.createElement('div');
+                    memoDummy.classList.add('ll-memo-dummy');
+                    memoDummy.textContent = info.memo[i];
+
+                    const memoText = document.createElement('input');
+                    memoText.type = 'text';
+                    memoText.classList.add('ll-memo-input');
+                    memoText.name = 'memo[]';
+                    memoText.value = info.memo[i];
+
+                    memoText.addEventListener('keydown', () => {
+                        updateValue(memoText.value, memoDummy);
+                    });
+
+                    memoBlock.appendChild(memoDummy);
+                    memoBlock.appendChild(memoText);
+
+                    memoList.insertBefore(memoBlock, memoList.lastElementChild);
+                }
+
                 if (id) {
                     document.getElementById('nameTxt').value = info.name;
                     document.getElementById('timer').value = info.limit_day;
@@ -47,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('preview').style.backgroundImage = `url(${info.image_url || ''})`;
                     document.getElementById('image_url').value = info.image_url || '';
                     document.getElementsByName('category')[(info.category !== null) ? info.category : 3].checked = true;
-                    document.getElementById('memoTxt').value = info.memo || '';
                 }
             } catch (err) {
                 console.log(err.message);
