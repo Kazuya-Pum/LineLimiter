@@ -1,8 +1,9 @@
 html {
-    font-size: 16px;
+    font-size: 6vw;
     -webkit-text-size-adjust: 100%;
     background-color: #E9E9E9;
 }
+
 
 body {
     overflow: hidden;
@@ -19,25 +20,26 @@ body {
     height: 150vh;
     background-color: white;
     top: 45vh;
-    border-radius: 25px;
+    border-radius: 8vw;
     display: flex;
     flex-direction: column;
 }
 
 /* swiperの操作 */
 .swiper-container {
+    color:#8b8b8b;
     position: static;
     z-index: 10;
     opacity: 0;
     height: 30vh;
-    margin-top: 15px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-top: 4vw;
+    margin-left: 8vw;
+    margin-right: 8vw;
     width: auto;
 }
 
 .swiper-slide {
-    font-size: 16px;
+    font-size: 6vw;
     background: #fff;
     /* Center slide text vertically */
     display: -webkit-flex;
@@ -54,9 +56,9 @@ body {
 }
 
 .input {
-    width: 100%;
-    padding-top: 10px;
-    margin-bottom: 10px;
+    width: 80vw;
+    padding-top: 2vw;
+    margin-bottom: 2vw;
 }
 
 .inout-row {
@@ -73,30 +75,37 @@ body {
     }
 
 .input-border {
-    border-top: 1px solid lightgray;
+    border-top: 0.4vw solid lightgray;
 }
 
 .swiper-scrollbar {
     position: relative;
-    width: 76vw;
-    margin: 1vh 0px 0px 12vw;
+    width: 80vw;
+    margin: 0.4vh 0px 0vw 10vw;
     background-color: white;
 }
 
 .swiper-scrollbar-drag {
     background-color: #65D678;
-    height: 2.2px;
+    height: 0.8vw;
     z-index: 1;
 }
 
 #nameTxt {
     width: 40vw;
+    font-size:4vw;
     padding: 2vw;
     text-align: center;
     border: none;
-    border-bottom: 2px solid;
+    border-bottom: 0.7vw solid;
     border-color: #65D678;
-    margin-top: 20px;
+    margin-top: 8vw;
+}
+
+
+.label_font{
+    padding:2vw 0 2vw 5vw;
+    font-size:4.2vw;
 }
 
 .img-label {
@@ -105,6 +114,10 @@ body {
     align-items: center;
     width: 100vw;
     height: 100vw;
+}
+.category_Button{
+    margin:2vw;
+    font-size:4vw;
 }
 
 .topIcon {
@@ -124,11 +137,14 @@ body {
 .ll-icon {
     width: 11vw;
     height: 11vw;
+    padding: 0 3vw;
+    margin: 1vw;
 }
 
 .ll-icon-text {
-    margin: 0;
-    font-size: 2.5vw;
+    font-size: 2.2vw;
+    padding: 0 3vw;
+    margin: 1vw;
     text-align: center;
     border: none;
     background-color: white;
@@ -155,6 +171,15 @@ body {
     left: 5%;
 }
 
+#timer, #placeTxt {
+    font-size: 4vw;
+    color:#7a7a7a;
+    height: 8vw;
+    width: 33vw;
+    margin:0;
+}
+
+
 #OKButton {
     position: relative;
     left: 180px;
@@ -165,19 +190,21 @@ body {
     justify-content: center;
     width: 100vw;
     position: fixed;
-    bottom: 25vw;
+    bottom: 30vw;
     z-index: 10;
 }
 
 #submitButton {
-    width: 50vw;
-    height: 3em;
+    width: 45vw;
+    height: 13vw;
+    
     align-content: center;
     border-radius: 10vw;
     border-style: solid;
     border-color: #65D678;
     color: #65D678;
     background-color: white;
+    font-size:5vw;
     font-weight: bold;
     box-shadow: 0px 3px 6px 0px #898989;
 }
@@ -192,17 +219,18 @@ body {
 
     .menu-top > div {
         width: 30vw;
-        border: 2px solid;
+        border: 0.5vw solid;
+        background-color:silver;
         border-color: lightgray;
-        border-radius: 2px;
-        margin-top: 10px;
+        border-radius: 0.5vw;
+        margin-top: 3vw;
     }
 
 .menu_bar {
     position: fixed;
     bottom: 0px;
     width: 100vw;
-    height: 15vw;
+    height: 21vw;
     z-index: 100;
     background-color: white;
     display: flex;
@@ -223,6 +251,11 @@ body {
         border: none;
     }
 
+#add_Button{
+
+
+}
+
 @media (max-height: 450px) {
     .input-hide {
         display: none;
@@ -232,9 +265,13 @@ body {
 .toggle-buttons {
     display: flex;
     justify-content: space-around;
-    margin-top: 10px;
+    margin-top: 1vw;
     width: 100%;
     flex-wrap: wrap;
+}
+
+.toggle-buttons input{
+    height:10vw;
 }
 
     .toggle-buttons [type=radio],
@@ -242,13 +279,16 @@ body {
         -webkit-appearance: none;
         -moz-appearance: none;
         position: absolute;
-        margin: 0;
-        padding: 0;
+        
     }
 
     .toggle-buttons .button {
+
         z-index: 1;
         box-shadow: 0px 3px 4px 0px #898989;
+        padding:1vw 3.4vw;
+        margin:0 1.4vw;
+        font-size:3vw;
     }
 
     .toggle-buttons :checked + .button {
@@ -265,13 +305,14 @@ body {
 
 .button {
     display: inline-block;
+    font-size:3.5vw;
     padding: .1em 0.5em;
-    border-radius: 20px;
+    border-radius: 20vw;
     text-align: center;
     color: #65D678;
     background-color: white;
     cursor: pointer;
-    border: 2px solid #65D678;
+    border: 0.3vw solid #65D678;
 }
 
     .button:disabled {
@@ -280,6 +321,17 @@ body {
         color: #def;
     }
 
+.fresh{
+    border:none;
+    margin:0;
+    padding:0;
+}
+
+#categoryButton{
+    margin:0 2vw;
+    padding: 0 2vw;
+
+}
 
 .ll-memo-list {
     display: flex;
@@ -292,11 +344,12 @@ body {
 
 .ll-memo-block {
     display: inline-block;
+    height:6vw;
     position: relative;
     border-radius: 1em;
-    margin: 0em 0.5em 1em 0.5em;
+    margin: 1vw 0vw 1vw 2vw;
     max-width: calc(100% - 1em);
-    border: 1px solid #65D678;
+    border: 0.4vw solid #65D678;
 }
 
 .ll-memo-dummy {
@@ -305,30 +358,37 @@ body {
     overflow: hidden;
     min-width: 1em;
     max-width: 70vw;
-    height: 1.4em;
-    padding: 0 1em;
+    height: 7vw;
+    padding: 0 0.3em;
     white-space: nowrap;
 }
 
 .ll-memo-input {
     position: absolute;
-    top: 0.2em;
+    color:#7a7a7a;
+    font-size:3.6vw;
     left: 0;
+    top:0.9vw;
     box-sizing: border-box;
     width: 100%;
+    margin:auto;
     text-align: center;
     border: none;
     background: none;
 }
 
 #memoAddBtn {
-    border: none;
-    border-radius: 1em;
-    background-color: #65D678;
-    color: white;
-    width: 1.4em;
-    height: 1.4em;
-    font-size: 20px;
+    border-color: #65D678;
+    border:solid;
+    border-width:0.4vw;
+    background-color: white;
+    color: #65D678;
+    margin:1vw 1vw 1vw 2vw;
+    width: 7vw;
+    height: 7vw;
+    font-size: 5vw;
+    padding: 0 1vw;
+    border-radius: 4vw;
 }
 
     #memoAddBtn:active {
