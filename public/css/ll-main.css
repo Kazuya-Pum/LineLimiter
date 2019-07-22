@@ -2,7 +2,7 @@ body {
     font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
     overflow: hidden;
     height: 100vh;
-    margin: 0px;
+    margin: 0;
 }
 
 .ll-loading {
