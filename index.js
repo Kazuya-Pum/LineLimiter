@@ -12,6 +12,7 @@ const webhook = require('./routes/webhook');
 const edit = require('./routes/edit');
 const list = require('./routes/list');
 const setting = require('./routes/setting');
+const history = require('./routes/history');
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -28,7 +29,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
+
 app.use(session({
     secret: 'line limiter',
     resave: false,
@@ -38,10 +39,7 @@ app.use(session({
 app.use('/edit', edit);
 app.use('/list', list);
 app.use('/setting', setting);
-
-// Google App Engine
-//app.get(/^(?!.*_ah).*$/, (req, res, next) => {
-//})
+app.use('/history', history);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

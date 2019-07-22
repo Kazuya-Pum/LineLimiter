@@ -307,3 +307,33 @@ input#search::-webkit-input-placeholder {
     right: 10vw;
     margin-top: 5vw;
 }
+
+.ll-del-btn {
+    border: 2px solid #65D678;
+    border-radius: 100%;
+    position: absolute;
+    width: 7vw;
+    height: 7vw;
+    right: 10vw;
+    padding: 2vw;
+    margin-top: 5vw;
+    fill:#65D678;
+}
+
+.ll-del-submit {
+    border: none;
+    border-radius: 10vw;
+    background-color: red;
+    color: white;
+    padding: 2vw 10vw 2vw 10vw;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0px 3px 6px 0px #898989;
+    align-self: center;
+}
+
+.ll-del-submit:active {
+    background-color: darkred;
+    box-shadow: 0px 3px 6px 0px #898989 inset;
+}
