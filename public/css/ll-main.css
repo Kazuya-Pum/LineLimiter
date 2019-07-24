@@ -130,3 +130,9 @@ body {
 .modal_wrap input:checked ~ .modal_overlay .modal_content{
     transform: translateY(20px);
 }
+
+@media (max-height: 450px) {
+    .input-hide {
+        display: none;
+    }
+}

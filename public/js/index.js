@@ -172,8 +172,7 @@
     const scrollOff = (e) => {
         e.preventDefault();
     }
-
-    //window.addEventListener('touchmove', scrollOff, { passive: false });
+    window.addEventListener('touchmove', scrollOff, { passive: false });
 
     document.getElementById('file_photo').addEventListener('change', (e) => {
         if (e.target.files[0]) {
@@ -197,8 +196,13 @@
 
     const navBtns = document.getElementsByClassName('nav-btn');
 
+    const slideTo = (event) => {
+        swiper.slideTo(event.currentTarget.dataset.slide);
+    };
+
     for (let i = 0; i < navBtns.length; i++) {
-        navBtns[i].addEventListener('click', () => { swiper.slideTo(i) });
+        navBtns[i].setAttribute('data-slide', i);
+        navBtns[i].addEventListener('click', slideTo, false);
     }
 
     const placeTxt = document.getElementById('placeTxt');

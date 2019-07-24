@@ -1,10 +1,9 @@
-﻿<!DOCTYPE html>
-<html lang="jp">
+<!DOCTYPE html>
+<html lang="ja">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
     <link rel="stylesheet" type="text/css" href="/css/ll-setting.css">
     <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
     <title>設定</title>
@@ -13,35 +12,39 @@
 <body>
     <div class="ll-container">
         <div class="ll-main-block">
-            <div class="ll-setbox ll-bottom-line">
-                <h4>通知日</h4>
-                <div class="ll-row ll-notify-btn">
-                    <button type="button">
-                        <span>X</span>
-                        <span>1日前</span>
-                    </button>
-                    <button type="button" class="ll-btn-odd">
-                        <span>X</span>
-                        <span>2日前</span>
-                    </button>
-
-                    <button type="button" id="notifyAddBtn">+</button>
+            <form id="settingForm" action="/setting" method="POST" enctype="multipart/form-data">
+                <div class="ll-setbox ll-bottom-line">
+                    <h4>通知時刻</h4>
+                    <div class="ll-row">
+                        <input type="number" name="notification" id="notification" min="0" max="23" required>
+                        時
+                    </div>
                 </div>
-            </div>
-            <div class="ll-setbox ll-bottom-line">
-                <h4>一覧表示</h4>
-                <div class="ll-row toggle-buttons">
-                    <label>
-                        <input type="radio" name="view" checked>
-                        <span class="button">リスト</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="view">
-                        <span class="button">カレンダー</span>
-                    </label>
+                <div class="ll-setbox ll-bottom-line">
+                    <h4>通知日</h4>
+                    <div class="ll-row ll-notify-btn" id="notificationDay">
+                        <button type="button" id="notifyAddBtn">+</button>
+                    </div>
                 </div>
-            </div>
-            <div class="ll-setbox ll-bottom-line"></div>
+                <div class="ll-setbox ll-bottom-line">
+                    <h4>一覧表示</h4>
+                    <div class="ll-row toggle-buttons">
+                        <label>
+                            <input type="radio" name="viewMode" value="false" checked>
+                            <span class="button">リスト</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="viewMode" value="true">
+                            <span class="button">カレンダー</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="ll-setbox ll-bottom-line">
+                    <div class="ll-row ll-row-center">
+                        <button type="button" id="saveBtn">保存</button>
+                    </div>
+                </div>
+            </form>
             <div class="ll-setbox ll-bottom-line">
                 <h4>使い方</h4>
                 <div>
@@ -56,12 +59,12 @@
             <button type="button" disabled></button>
         </form>
     </div>
-    <!-- <div id="loader" class="ll-loading">
+    <div id="loader" class="ll-loading">
         <div class="loader"></div>
         <div class="ll-loader-back"></div>
-    </div> -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    </div>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script type="text/javascript" src="/js/liff-setting.js"></script>
 </body>
 
 </html>
