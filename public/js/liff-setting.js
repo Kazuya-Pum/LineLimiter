@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         event.currentTarget.parentNode.removeChild(event.currentTarget);
 
         notificationList = [];
-        document.getElementsByName('notifycationDay').forEach((elem) => { notificationList.push(Number(elem.value)); });
+        document.getElementsByName('notifycationDay[]').forEach((elem) => { notificationList.push(Number(elem.value)); });
 
         console.log(notificationList);
     };

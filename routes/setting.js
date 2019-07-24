@@ -8,7 +8,7 @@ router.post('/', token.handler, async (req, res, next) => {
     try {
         const userId = req.session.userId;
         const notification = Number(req.body.notification);
-        const notificationDay = req.body.notificationDay;
+        const notificationDay = req.body.notificationDay.sort((a, b) => { return a - b; });
         const viewMode = req.body.viewMode;
 
         if (isNaN(notification)) {
