@@ -1,32 +1,70 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="ja">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="/jquery.min.js"></script>
-    <meta name="”robots”" content="”noindex”">
-    <link rel="stylesheet" href="/css/uikit.min.css" />
-    <script src="/js/uikit.min.js"></script>
-    <script src="/js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/ll-setting.css">
+    <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
     <title>設定</title>
 </head>
+
 <body>
-    <div class="uk-container">
-        <main>
-            <h1>setting</h1>
-            <form id="form">
-
-                <div class="uk-margin">
-                    <input type="number" id="notification" class="uk-input" min="0" max="23" required />
+    <div class="ll-container">
+        <div class="ll-main-block">
+            <form id="settingForm" action="/setting" method="POST" enctype="multipart/form-data">
+                <div class="ll-setbox ll-bottom-line">
+                    <h4>通知時刻</h4>
+                    <div class="ll-row">
+                        <input type="number" name="notification" id="notification" min="0" max="23" required>
+                        時
+                    </div>
                 </div>
-
-                <button type="button" class="uk-button uk-button-primary" id="submit">Save</button>
-
+                <div class="ll-setbox ll-bottom-line">
+                    <h4>通知日</h4>
+                    <div class="ll-row ll-notify-btn" id="notificationDay">
+                        <button type="button" id="notifyAddBtn">+</button>
+                    </div>
+                </div>
+                <div class="ll-setbox ll-bottom-line">
+                    <h4>一覧表示</h4>
+                    <div class="ll-row toggle-buttons">
+                        <label>
+                            <input type="radio" name="viewMode" value="false" checked>
+                            <span class="button">リスト</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="viewMode" value="true">
+                            <span class="button">カレンダー</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="ll-setbox ll-bottom-line">
+                    <div class="ll-row ll-row-center">
+                        <button type="button" id="saveBtn">保存</button>
+                    </div>
+                </div>
             </form>
-        </main>
-    </div>
+            <div class="ll-setbox ll-bottom-line">
+                <h4>使い方</h4>
+                <div>
 
+                </div>
+            </div>
+        </div>
+        <form class="menu_bar input-hide" method="get">
+            <button type="submit" formaction="/edit"></button>
+            <button type="submit" formaction="/list"></button>
+            <button type="submit" formaction="/history"></button>
+            <button type="button" disabled></button>
+        </form>
+    </div>
+    <div id="loader" class="ll-loading">
+        <div class="loader"></div>
+        <div class="ll-loader-back"></div>
+    </div>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script type="text/javascript" src="/js/liff-setting.js"></script>
 </body>
+
 </html>

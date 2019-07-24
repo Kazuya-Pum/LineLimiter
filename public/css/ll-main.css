@@ -2,7 +2,7 @@ body {
     font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
     overflow: hidden;
     height: 100vh;
-    margin: 0px;
+    margin: 0;
 }
 
 .ll-loading {
@@ -129,4 +129,10 @@ body {
 
 .modal_wrap input:checked ~ .modal_overlay .modal_content{
     transform: translateY(20px);
+}
+
+@media (max-height: 450px) {
+    .input-hide {
+        display: none;
+    }
 }
