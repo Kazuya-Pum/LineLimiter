@@ -2,6 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const infoBord = document.getElementById('info-tab');
 
+    const calendar = document.getElementById('calendar');
+    const weeks = ['日', '月', '火', '水', '木', '金', '土'];
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
+    let infoByDay = {};
     liff.init(
         async (data) => {
             try {
@@ -13,12 +20,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 loading(true);
 
-                const info = await (await fetch('/list', {
+                const result = await (await fetch('/list', {
                     method: 'POST',
                     headers: {
                         'accessToken': accessToken,
                     }
                 })).json();
+
+                if (result.viewMode) {
+                    switchViewMode();
+                }
+
+                document.getElementById('listView').classList.remove('ll-hide');
+
+                const info = result.food;
 
                 const listAll = document.getElementById('list-all');
                 const list0 = document.getElementById('list-0');
@@ -31,6 +46,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 for (let i = 0; i < info.length; i++) {
 
                     const limit = new Date(info[i].limit_day);
+
+                    const infoYear = limit.getFullYear();
+                    const infoMonth = limit.getMonth() + 1;
+                    const infoDate = limit.getDate();
+                    if (infoYear in infoByDay) {
+                        if (infoMonth in infoByDay[infoYear]) {
+                            if (infoDate in infoByDay[infoYear][infoMonth]) {
+                                infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                            } else {
+                                infoByDay[infoYear][infoMonth][infoDate] = [];
+                                infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                            }
+                        } else {
+                            infoByDay[infoYear][infoMonth] = {};
+                            infoByDay[infoYear][infoMonth][infoDate] = [];
+                            infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                        }
+                    } else {
+                        infoByDay[infoYear] = {};
+                        infoByDay[infoYear][infoMonth] = {};
+                        infoByDay[infoYear][infoMonth][infoDate] = [];
+                        infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                    }
 
                     const diff = Math.floor((limit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
@@ -75,8 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             break;
                     }
                 }
+
+                const now = createCalendar(year, month);
+                calendar.appendChild(now);
+                calendar.scrollTop = '10vh';
             } catch (err) {
-                console.log(err.message);
+                console.log(err.stack);
             } finally {
                 loading(false);
             }
@@ -136,6 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    document.getElementById('toggleView').addEventListener('click', switchViewMode, false);
+
     document.getElementById('backButton').addEventListener('click', () => {
         history.back();
     });
@@ -143,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('popstate', () => {
         if (infoBord.classList.contains('ll-open')) {
             infoBord.classList.remove('ll-open');
+            loading(false);
         }
     }, false);
 
@@ -169,13 +214,121 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function switchUseBtn(enabled) {
+    function switchViewMode() {
+        const contents = document.getElementsByClassName('ll-contents');
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.toggle('ll-contents-active');
+        }
+
+        const viewBtnIcon = document.getElementById('viewBtnIcon');
+
+        if (viewBtnIcon.getAttribute('href') === '/images/ll-icons.svg#calendarViewIcon') {
+            viewBtnIcon.setAttribute('href', '/images/ll-icons.svg#listViewIcon');
+            document.getElementById('search').classList.add('ll-hide');
+        } else {
+            viewBtnIcon.setAttribute('href', '/images/ll-icons.svg#calendarViewIcon');
+            document.getElementById('search').classList.remove('ll-hide');
+        }
+    }
+
+    function switchUseBtn(enabled = true) {
         if (enabled) {
             useButton.classList.remove('ll-info-used');
         } else {
             useButton.classList.add('ll-info-used');
         }
     }
+
+    function clickCalandarBtn(event) {
+        if (event.target.type = 'button') {
+            togleInfo(event.target.value);
+        }
+    }
+
+    function createCalendar(year = 2019, month = 1) {
+        let data = {};
+        if (year in infoByDay && month in infoByDay[year]) {
+            data = infoByDay[year][month];
+        }
+
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0);
+        const endDayCount = endDate.getDate();
+        const startDay = startDate.getDay();
+        let dayCount = 1;
+
+        let calendarHtml = '';
+        calendarHtml += `<h3 class="ll-calendar-head">${month}月</h3>`;
+        calendarHtml += '<div><table><thead><tr>';
+        for (let i = 0; i < weeks.length; i++) {
+            calendarHtml += `<td>${weeks[i]}</td>`;
+        }
+        calendarHtml += '</tr></thead><tbody>';
+        for (let w = 0; w < 6; w++) {
+            calendarHtml += '<tr>'
+
+            for (let d = 0; d < 7; d++) {
+                if (w == 0 && d < startDay) {
+                    // 1行目で1日の曜日の前
+                    calendarHtml += '<td></td>'
+                } else if (dayCount > endDayCount) {
+                    // 末尾の日数を超えた
+                    calendarHtml += '<td></td>'
+                } else {
+                    if (dayCount in data) {
+                        calendarHtml += `<td><button type="button" value="${data[dayCount][0].id}" class="ll-calendar-btn" style="background-image : url(${data[dayCount][0].image_url});">${dayCount}</button></td>`
+                    } else {
+                        calendarHtml += '<td>' + dayCount + '</td>'
+                    }
+                    dayCount++
+                }
+            }
+            calendarHtml += '</tr>'
+        }
+        calendarHtml += '</tbody></table></div>'
+
+        const calendarBlock = document.createElement('div');
+        calendarBlock.innerHTML = calendarHtml;
+        calendarBlock.classList.add('ll-calendar');
+        calendarBlock.setAttribute('data-month', month);
+        calendarBlock.setAttribute('data-year', year);
+
+        calendarBlock.addEventListener('click', clickCalandarBtn, false);
+
+        return calendarBlock;
+    }
+
+    function prevCalendar() {
+        let prevMonth = (('dataset' in calendar.firstChild && 'month' in calendar.firstChild.dataset) ? calendar.firstChild.dataset.month : month) - 1;
+        let prevYear = ('dataset' in calendar.firstChild && 'year' in calendar.firstChild.dataset) ? calendar.firstChild.dataset.year : year;
+        if (prevMonth == 0) {
+            prevYear--;
+            prevMonth = 12;
+        }
+
+        const prev = createCalendar(prevYear, prevMonth);
+        calendar.insertBefore(prev, calendar.firstChild);
+    }
+
+    function nextcalendar() {
+        let nextMonth = Number(('dataset' in calendar.lastChild && 'month' in calendar.lastChild.dataset) ? calendar.lastChild.dataset.month : month) + 1;
+        let nextYear = ('dataset' in calendar.lastChild && 'year' in calendar.lastChild.dataset) ? calendar.lastChild.dataset.year : year;
+        if (nextMonth == 13) {
+            nextYear++;
+            nextMonth = 1;
+        }
+
+        const next = createCalendar(nextYear, nextMonth);
+        calendar.appendChild(next);
+    }
+
+    calendar.addEventListener('scroll', () => {
+        if (calendar.scrollTop == 0) {
+            prevCalendar();
+        } else if (calendar.lastChild.getBoundingClientRect().top < 70) {
+            nextcalendar();
+        }
+    });
 
     function loading(enabled) {
         document.getElementById('loader').style.visibility = (enabled) ? "visible" : "hidden";

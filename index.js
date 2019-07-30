@@ -40,6 +40,16 @@ app.use('/edit', edit);
 app.use('/list', list);
 app.use('/setting', setting);
 app.use('/history', history);
+app.use('/preset', require('./routes/preset'));
+
+app.use('/bin/notification', (req, res, next) => {
+    if (req.get('X-Appengine-Cron') === 'true') {
+        require('./bin/notification')();
+        res.sendStatus(200).end();
+    } else {
+        res.sendStatus(403).end();
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

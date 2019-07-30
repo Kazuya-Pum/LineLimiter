@@ -1,8 +1,0 @@
-.input-file .preview {
-    background-image: url(/icon.png);
-    background-size: contain;
-}
-
-.input-file input[type="file"] {
-    opacity: 0;
-}

@@ -5,6 +5,17 @@ body {
     margin: 0;
 }
 
+.ll-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.ll-flex-grow10 {
+    flex-grow: 10;
+}
+
 .ll-loading {
     display: flex;
     justify-content: center;
@@ -135,4 +146,47 @@ body {
     .input-hide {
         display: none;
     }
+}
+
+.menu_bar {
+    width: 100vw;
+    padding: 2vw 0 4vw 0;
+    z-index: 100;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid;
+    border-color: lightgray;
+}
+
+    .menu_bar > a {
+        width: 9vw;
+        height: 9vw;
+        background-color: initial;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        color: initial;
+        fill: #46465A;
+    }
+
+    .menu_bar > a > svg {
+        width: 80%;
+        height: 80%;
+        margin-bottom: -2px;
+    }
+
+    .menu_bar > a.disabled {
+        fill:#65D678;
+        color: #65D678;
+    }
+
+.ll-icon-txt {
+    margin: 0;
+    font-size: 2.5vw;
+    text-align: center;
+    border: none;
+    background-color: white;
+    z-index: 10;
 }

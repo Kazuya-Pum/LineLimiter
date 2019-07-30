@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="noindex">
     <link rel="stylesheet" type="text/css" href="/css/ll-setting.css">
     <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
     <title>設定</title>
@@ -52,12 +53,32 @@
                 </div>
             </div>
         </div>
-        <form class="menu_bar input-hide" method="get">
-            <button type="submit" formaction="/edit"></button>
-            <button type="submit" formaction="/list"></button>
-            <button type="submit" formaction="/history"></button>
-            <button type="button" disabled></button>
-        </form>
+        <div class="menu_bar input-hide">
+            <a href="/edit">
+                <svg>
+                    <use href="/images/ll-icons.svg#addIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">追加</p>
+            </a>
+            <a href="/list">
+                <svg>
+                    <use href="/images/ll-icons.svg#listIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">一覧</p>
+            </a>
+            <a href="/history">
+                <svg>
+                    <use href="/images/ll-icons.svg#historyIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">履歴</p>
+            </a>
+            <a href="/setting" class="disabled">
+                <svg>
+                    <use href="/images/ll-icons.svg#settingIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">設定</p>
+            </a>
+        </div>
     </div>
     <div id="loader" class="ll-loading">
         <div class="loader"></div>

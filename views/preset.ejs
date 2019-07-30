@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
     <link rel="stylesheet" type="text/css" href="/css/list.css">
     <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
-    <title>履歴</title>
+    <title>プリセット</title>
 </head>
 
 <body>
@@ -54,6 +54,13 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" id="list-all">
+                    <button type="button" class="ll-list-btn">
+                        <svg class="ll-list-icon"><use href="/images/ll-icons.svg#freshIcon"></use></svg>
+                        <div class="ll-list-name">
+                            <h4>test</h4>
+                            <small>test</small>
+                        </div>
+                    </button>
                 </div>
                 <div class="swiper-slide" id="list-0">
                 </div>
@@ -63,40 +70,6 @@
                 </div>
                 <div class="swiper-slide" id="list-3">
                 </div>
-            </div>
-        </div>
-        <div id="info-tab" class="ll-info-tab">
-            <div class="ll-top_bar">
-                <button type="button" id="backButton" class="ll-back-btn"></button>
-                <span class="ll-top-bar-text">詳細</span>
-            </div>
-            <div id="infoImage" class="ll-info-image"></div>
-            <div class="ll-info-bord">
-                <div>
-                    <label for="trigger" class="ll-del-btn">
-                        <svg>
-                            <use href="/images/ll-icons.svg#delIcon"></use>
-                        </svg>
-                    </label>
-                    <p name="infoName" class="ll-info-name"></p>
-                </div>
-                <div class="ll-info-item">
-                    <span>賞味期限</span>
-                    <span id="infoLimit"></span>
-                </div>
-                <div class="ll-info-item">
-                    <span>保存場所</span>
-                    <span id="infoPlace"></span>
-                </div>
-                <div class="ll-info-item">
-                    <span>カテゴリ</span>
-                    <span id="infoCategory"></span>
-                </div>
-                <form action="/edit" method="get" id="toEdit"></form>
-                <button type="submit" id="editButton" form="toEdit" class="ll-info-btn input-hide" name="id">
-                    <img src="/images/fire.svg" />
-                    追加
-                </button>
             </div>
         </div>
         <div class="menu_bar input-hide">
@@ -112,7 +85,7 @@
                 </svg>
                 <p class="ll-icon-txt">一覧</p>
             </a>
-            <a href="/history" class="disabled">
+            <a href="/history">
                 <svg>
                     <use href="/images/ll-icons.svg#historyIcon"></use>
                 </svg>
@@ -126,25 +99,13 @@
             </a>
         </div>
     </div>
-    <div class="modal_wrap">
-        <input id="trigger" type="checkbox">
-        <div class="modal_overlay">
-            <label for="trigger" class="modal_trigger"></label>
-            <div class="modal_content">
-                <label for="trigger" class="close_button">✖️</label>
-                <h2>確認</h2>
-                <p><span name="infoName"></span>を履歴から削除しますか？</p>
-                <button type="button" id="delSubmit" class="ll-del-submit">削除</button>
-            </div>
-        </div>
-    </div>
-    <div id="loader" class="ll-loading">
+    <div id="loader" class="ll-loading" style="visibility: hidden;">
         <div class="loader"></div>
         <div class="ll-loader-back"></div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script type="text/javascript" src="/js/liff-history.js"></script>
+    <script type="text/javascript" src="/js/liff-preset.js"></script>
     <script type="text/javascript" src="/js/list.js" async></script>
 </body>
 

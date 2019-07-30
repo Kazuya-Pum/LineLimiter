@@ -181,9 +181,11 @@
                 document.getElementById('preview').style.backgroundImage = `url(${e.target.result})`;
             }
             reader.readAsDataURL(e.target.files[0]);
+            document.getElementById('photo-img').style.display = 'none';
         } else {
             document.getElementById('preview').style.backgroundImage = 'none';
             document.getElementById('image_url').value = '';
+            document.getElementById('photo-img').style.display = 'block';
         }
     });
 

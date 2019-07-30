@@ -83,9 +83,7 @@ router.post('/delete', token.handler, async (req, res, next) => {
 /* GET home page. */
 router.get('/', function (req, res) {
 
-    res.render('history', {
-        title: '履歴',
-    });
+    res.render('history');
 });
 
 module.exports = router;

@@ -1,58 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="noindex">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
     <link rel="stylesheet" type="text/css" href="/css/list.css">
     <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
-    <title><%=title%></title>
+    <title>一覧</title>
 </head>
+
 <body>
     <div class="ll-container">
         <div class="ll-top">
             <div class="ll-top_bar">
                 <input type="search" id="search" placeholder="検索">
-            </div>
-            <div class="ll-top-icons">
-                <div>
-                    <input type="image" class="ll-icon" id="allButton" value="all" src="/images/category.png">
-                    <p class="ll-icon-txt">すべて</p>
-                </div>
-                <div>
-                    <input type="image" class="ll-icon" id="seasonerButton" value="seasoner" src="/images/seasoner.png">
-                    <p class="ll-icon-txt">調味料</p>
-                </div>
-                <div>
-                    <input type="image" class="ll-icon" id="freshButton" value="fresh" src="/images/fresh.png">
-                    <p class="ll-icon-txt">生鮮食品</p>
-                </div>
-                <div>
-                    <input type="image" class="ll-icon" id="preservedButton" value="preserved" src="/images/preserved.png">
-                    <p class="ll-icon-txt">保存食</p>
-                </div>
-                <div>
-                    <input type="image" class="ll-icon" id="otherButton" value="other" src="/images/other.png">
-                    <p class="ll-icon-txt">保存食</p>
-                </div>
-            </div>
-            <div class="swiper-scrollbar"></div>
-        </div>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" id="list-all">
-                </div>
-                <div class="swiper-slide" id="list-0">
-                </div>
-                <div class="swiper-slide" id="list-1">
-                </div>
-                <div class="swiper-slide" id="list-2">
-                </div>
-                <div class="swiper-slide" id="list-3">
-                </div>
+                <button type="button" id="toggleView" class="ll-view-btn">
+                    <svg>
+                        <use id="viewBtnIcon" href="/images/ll-icons.svg#calendarViewIcon"></use>
+                    </svg>
+                </button>
             </div>
         </div>
-
+        <div id="listView" class="ll-contents ll-contents-active ll-hide">
+            <div class="ll-top">
+                <div class="ll-top-icons" id="navBtns">
+                    <div data-slide="0">
+                        <svg class="ll-icon">
+                            <use href="/images/ll-icons.svg#allIcon"></use>
+                        </svg>
+                        <p class="ll-icon-txt">すべて</p>
+                    </div>
+                    <div data-slide="1">
+                        <svg class="ll-icon">
+                            <use href="/images/ll-icons.svg#seasonerIcon"></use>
+                        </svg>
+                        <p class="ll-icon-txt">調味料</p>
+                    </div>
+                    <div data-slide="2">
+                        <svg class="ll-icon">
+                            <use href="/images/ll-icons.svg#freshIcon"></use>
+                        </svg>
+                        <p class="ll-icon-txt">生鮮食品</p>
+                    </div>
+                    <div data-slide="3">
+                        <svg class="ll-icon">
+                            <use href="/images/ll-icons.svg#preservedIcon"></use>
+                        </svg>
+                        <p class="ll-icon-txt">保存食</p>
+                    </div>
+                    <div data-slide="4">
+                        <svg class="ll-icon">
+                            <use href="/images/ll-icons.svg#otherIcon"></use>
+                        </svg>
+                        <p class="ll-icon-txt">その他</p>
+                    </div>
+                </div>
+                <div class="swiper-scrollbar"></div>
+            </div>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" id="list-all">
+                    </div>
+                    <div class="swiper-slide" id="list-0">
+                    </div>
+                    <div class="swiper-slide" id="list-1">
+                    </div>
+                    <div class="swiper-slide" id="list-2">
+                    </div>
+                    <div class="swiper-slide" id="list-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ll-contents ll-scroll" id="calendar">
+        </div>
         <div id="info-tab" class="ll-info-tab">
             <div class="ll-top_bar">
                 <button type="button" id="backButton" class="ll-back-btn"></button>
@@ -86,12 +109,32 @@
             </div>
         </div>
 
-        <form class="menu_bar input-hide" method="get">
-            <button type="submit" formaction="/edit"></button>
-            <button type="button" disabled></button>
-            <button type="submit" formaction="/history"></button>
-            <button type="submit" formaction="/setting"></button>
-        </form>
+        <div class="menu_bar input-hide">
+            <a href="/edit">
+                <svg>
+                    <use href="/images/ll-icons.svg#addIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">追加</p>
+            </a>
+            <a href="/list" class="disabled">
+                <svg>
+                    <use href="/images/ll-icons.svg#listIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">一覧</p>
+            </a>
+            <a href="/history">
+                <svg>
+                    <use href="/images/ll-icons.svg#historyIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">履歴</p>
+            </a>
+            <a href="/setting">
+                <svg>
+                    <use href="/images/ll-icons.svg#settingIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">設定</p>
+            </a>
+        </div>
     </div>
     <div id="loader" class="ll-loading">
         <div class="loader"></div>
@@ -103,4 +146,5 @@
     <script type="text/javascript" src="/js/liff-list.js"></script>
     <script type="text/javascript" src="/js/list.js" async></script>
 </body>
+
 </html>

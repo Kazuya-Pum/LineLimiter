@@ -8,6 +8,7 @@ router.post('/', token.handler, async (req, res, next) => {
     try {
         const userId = req.session.userId;
         const notification = Number(req.body.notification);
+
         const notificationDay = req.body.notificationDay.sort((a, b) => { return a - b; });
         const viewMode = req.body.viewMode;
 
@@ -17,8 +18,6 @@ router.post('/', token.handler, async (req, res, next) => {
 
         const query = `UPDATE center.user SET notification = $1, notification_day = $2, view_mode = $3 WHERE user_id = $4`;
         const values = [notification, notificationDay, viewMode, userId];
-
-        console.log(values);
 
         await pgClient.query(query, values);
         res.sendStatus(200);
@@ -43,9 +42,7 @@ router.post('/get', token.handler, async (req, res, next) => {
 
 /* GET home page. */
 router.get('/', function (req, res) {
-    res.render('setting', {
-
-    });
+    res.render('setting');
 });
 
 module.exports = router;

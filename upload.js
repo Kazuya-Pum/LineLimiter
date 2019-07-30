@@ -67,10 +67,17 @@ function getUrl(req) {
     return (req.file) ? req.file.cloudStoragePublicUrl || '' : '';
 }
 
-async function deleteFile(url) {
+async function deleteFile(url = '') {
     try {
+        if (url == '') {
+            return;
+        }
+
         const fileName = url.match(`^https:\/\/storage.googleapis.com\/${bucket.name}\/(.+)$`);
-        if (!fileName[1]) {
+
+        console.log(fileName);
+
+        if (!fileName.length != 1) {
             return;
         }
 

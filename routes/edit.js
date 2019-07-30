@@ -36,14 +36,20 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
         if (id) {
 
             const getOldImage = `SELECT image_url FROM ${userId}.food WHERE id = ${id} LIMIT 1`;
-            const oldImage = await pgClient.query(getOldImage);
 
+            const oldImage = (await pgClient.query(getOldImage)).rows[0].image_url || '';
+            const postImageUrl = req.body.image_url || '';
             let imageUrl = storage.getUrl(req);
-            if (imageUrl || !req.body.image_url) {
-                // TODO 他に同じURLを使っているデータがないかチェックしてから消す
-                storage.deleteFile(oldImage.rows[0].image_url);
-            } else if (req.body.image_url) {
-                imageUrl = oldImage.rows[0].image_url;
+
+            if (!imageUrl) {
+                // 新規アップロードがあればそれを使う
+                if (!postImageUrl && oldImage) {
+                    // 新規アップロードなし ＆ 表示画像なし & 登録済みあり ＝ 登録済みを消す
+                    storage.deleteFile(oldImage);
+                } else {
+                    // 登録済みを再登録
+                    imageUrl = oldImage;
+                }
             }
 
             query = `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7, enabled = TRUE WHERE id = $8`;
@@ -55,7 +61,7 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 
         await pgClient.query(query, values);
         console.log("edit food");
-        res.send("edit food");
+        res.sendStatus(200).end();
 
     } catch (err) {
         next(err);
@@ -63,7 +69,7 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 });
 
 // Ajax
-router.post('/get', token.handler, async (req, res) => {
+router.post('/get', token.handler, async (req, res, next) => {
     try {
         const userId = req.session.userId;
         const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
@@ -94,8 +100,7 @@ router.post('/get', token.handler, async (req, res) => {
             }
         }
     } catch (err) {
-        console.error(err.stack);
-        res.send(err);
+        next(err);
     }
 });
 
@@ -108,26 +113,7 @@ router.get('/', function (req, res) {
     }
 
     res.render('edit', {
-        title: title,
-        name: null,
-        limit_day: null,
-        place: null,
-        memo: null,
-        category: null,
-        image_url: null
-    });
-});
-
-// カテゴリ
-router.get('/category/:value', function (req, res) {
-    res.render('edit', {
-        title: 'カテゴリから登録',
-        name: '',
-        limit_day: '',
-        place: '',
-        memo: '',
-        category: '',
-        image_url: null
+        title: title
     });
 });
 

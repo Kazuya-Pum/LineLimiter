@@ -1,16 +1,20 @@
 ﻿<!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css" media="all">
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css"
+        　media="all">
     <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
     <link rel="stylesheet" type="text/css" href="/css/input.css" media="all">
-    <title>入力画面</title>
+    <title><%=title %></title>
 </head>
+
 <body>
-    <div>
-        <div>
+    <div class="ll-container">
+        <div class="ll-flex-grow10">
             <form action="/edit" method="post" enctype="multipart/form-data" id="form">
                 <label for="file_photo" id="preview" class="img-label preview">
                     <input type="file" name="file" id="file_photo" accept="image/*" style="display: none;">
@@ -90,7 +94,7 @@
                                             <span class="button">保存食</span>
                                         </label>
                                         <label>
-                                            <input type="radio" class="categoryButton" name="category" value="3" />
+                                            <input type="radio" class="categoryButton" name="category" value="3" checked/>
                                             <span class="button">その他</span>
                                         </label>
                                     </div>
@@ -107,30 +111,47 @@
                         </div>
                     </div>
                 </div>
-                <div class="input-hide ll-submit-block">
-                    <button type="button" id="submitButton">保存</button>
-                </div>
             </form>
         </div>
-        <form class="menu_bar input-hide" method="get">
-            <button type="submit" id="add_Button" disabled></button>
-            <button type="submit" id="list_Button" formaction="/list"></button>
-            <button type="button" id="history_Button"></button>
-            <button type="submit" id="config_Button" formaction="/setting"></button>
-        </form>
+        <div class="input-hide ll-submit-block">
+            <button type="button" id="submitButton">保存</button>
+        </div>
+        <div class="menu_bar input-hide">
+            <a href="/edit" class="disabled">
+                <svg>
+                    <use href="/images/ll-icons.svg#addIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">追加</p>
+            </a>
+            <a href="/list">
+                <svg>
+                    <use href="/images/ll-icons.svg#listIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">一覧</p>
+            </a>
+            <a href="/history">
+                <svg>
+                    <use href="/images/ll-icons.svg#historyIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">履歴</p>
+            </a>
+            <a href="/setting">
+                <svg>
+                    <use href="/images/ll-icons.svg#settingIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">設定</p>
+            </a>
+        </div>
     </div>
-
-    
     <div id="loader" class="ll-loading">
         <div class="loader"></div>
         <div class="ll-loader-back"></div>
     </div>
-
-
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script type="text/javascript" src="/js/liff-edit.js"></script>
     <script type="text/javascript" src="/js/index.js" async></script>
 </body>
+
 </html>

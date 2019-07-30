@@ -1,19 +1,18 @@
 'use strict';
 
 document.addEventListener("DOMContentLoaded", () => {
+    const search = /^\?\w*id=(\d+)/.exec(this.location.search);
+    const id = (search) ? search[1] : 0;
+    loading(id);
+
     liff.init(
         async (data) => {
             try {
-                const search = /^\?\w*id=(\d+)/.exec(this.location.search);
-                const id = (search) ? search[1] : 0;
-
                 const accessToken = liff.getAccessToken();
 
                 if (!accessToken) {
                     throw new Error("can't get token");
                 }
-
-                loading(true);
 
                 const info = await (await fetch('/edit/get', {
                     method: 'POST',
@@ -92,11 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('submitButton').addEventListener('click', async () => {
         try {
-            const form = document.getElementById('form');
-            if (!form.reportValidity()) {
-                return;
-            }
-
             loading(true);
 
             const accessToken = liff.getAccessToken();
@@ -107,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const param = /^\?\w*id=(\d+)/.exec(location.search);
             const id = (param) ? param[1] : 0;
 
-            const editData = new FormData(form);
+            const editData = new FormData(document.getElementById('form'));
             editData.append('id', id);
 
             const res = await fetch('/edit', {
@@ -123,13 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert('success');
             }
         } catch (err) {
-            alert(err);
+            console.error(err.message);
         } finally {
             loading(false);
         }
     });
 
-    function loading(enabled) {
+    function loading(enabled = true) {
         document.getElementById('loader').style.visibility = (enabled) ? "visible" : "hidden";
     }
 });

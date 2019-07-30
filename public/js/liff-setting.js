@@ -128,11 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('saveBtn').addEventListener('click', async () => {
         try {
-            const settingForm = document.getElementById('settingForm');
-            if (!settingForm.reportValidity()) {
-                return;
-            }
-
             loading(true);
 
             const accessToken = liff.getAccessToken();
@@ -149,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({
                     notification: notification.value,
                     notificationDay: notificationList,
-                    viewMode: settingForm.viewMode.value
+                    viewMode: document.getElementById('settingForm').viewMode.value
                 })
             });
 

@@ -1,0 +1,4 @@
+cron:
+- description: "send notification"
+  url: /bin/notification
+  schedule: every 1 hours synchronized
