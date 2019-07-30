@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const btn = document.createElement('button');
             btn.value = info[i].id;
             btn.classList.add('ll-list-btn');
-            btn.type = 'button';
-
-            btn.addEventListener('click', () => { togleInfo(info[i].id); }, false);
+            btn.type = 'submit';
+            btn.name = 'preset';
+            btn.value = info[i].id;
 
             const item = `
                             <svg class="ll-list-icon"><use href="/images/ll-icons.svg#${icons[info[i].category || 3]}"></use></svg>

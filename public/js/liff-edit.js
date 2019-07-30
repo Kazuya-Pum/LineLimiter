@@ -1,9 +1,13 @@
 'use strict';
 
 document.addEventListener("DOMContentLoaded", () => {
-    const search = /^\?\w*id=(\d+)/.exec(this.location.search);
-    const id = (search) ? search[1] : 0;
-    loading(id);
+    const getId = /^\?\w*id=(\d+)/.exec(this.location.search);
+    const id = (getId) ? getId[1] : 0;
+
+    const getPreset = /^\?\w*preset=(\d+)/.exec(this.location.search);
+    const preset = (getPreset) ? getPreset[1] : 0;
+
+    loading(id || preset);
 
     liff.init(
         async (data) => {
@@ -21,7 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        id: id
+                        id: id,
+                        preset: preset
                     })
                 })).json();
 
@@ -30,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 for (let i = 0; i < info.notification_list.length; ++i) {
 
                     let checked = '';
-                    if (id && info.notification.indexOf(info.notification_list[i]) !== -1) {
+                    if ((id || preset) && info.notification.indexOf(info.notification_list[i]) !== -1) {
                         checked = 'checked';
                     }
 
@@ -45,33 +50,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     dummy.textContent = value;
                 };
 
-                for (let i = 0; i < info.memo.length; ++i) {
-                    const memoBlock = document.createElement('div');
-                    memoBlock.classList.add('ll-memo-block');
+                if ('memo' in info) {
+                    for (let i = 0; i < info.memo.length; ++i) {
+                        const memoBlock = document.createElement('div');
+                        memoBlock.classList.add('ll-memo-block');
 
-                    const memoDummy = document.createElement('div');
-                    memoDummy.classList.add('ll-memo-dummy');
-                    memoDummy.textContent = info.memo[i];
+                        const memoDummy = document.createElement('div');
+                        memoDummy.classList.add('ll-memo-dummy');
+                        memoDummy.textContent = info.memo[i];
 
-                    const memoText = document.createElement('input');
-                    memoText.type = 'text';
-                    memoText.classList.add('ll-memo-input');
-                    memoText.name = 'memo[]';
-                    memoText.value = info.memo[i];
+                        const memoText = document.createElement('input');
+                        memoText.type = 'text';
+                        memoText.classList.add('ll-memo-input');
+                        memoText.name = 'memo[]';
+                        memoText.value = info.memo[i];
 
-                    memoText.addEventListener('keydown', () => {
-                        updateValue(memoText.value, memoDummy);
-                    });
+                        memoText.addEventListener('keydown', () => {
+                            updateValue(memoText.value, memoDummy);
+                        });
 
-                    memoBlock.appendChild(memoDummy);
-                    memoBlock.appendChild(memoText);
+                        memoBlock.appendChild(memoDummy);
+                        memoBlock.appendChild(memoText);
 
-                    memoList.insertBefore(memoBlock, memoList.lastElementChild);
+                        memoList.insertBefore(memoBlock, memoList.lastElementChild);
+                    }
                 }
 
-                if (id) {
-                    document.getElementById('nameTxt').value = info.name;
-                    document.getElementById('timer').value = info.limit_day;
+                if (id || preset) {
+                    document.getElementById('nameTxt').value = info.name || '';
+                    document.getElementById('timer').value = info.limit_day || '';
                     document.getElementById('placeTxt').value = info.place || '';
                     document.getElementById('preview').style.backgroundImage = `url(${info.image_url || ''})`;
                     document.getElementById('image_url').value = info.image_url || '';
@@ -82,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } finally {
                 loading(false);
             }
+
         },
         err => {
             console.log(err.message);

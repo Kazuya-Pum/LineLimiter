@@ -69,14 +69,44 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 });
 
 // Ajax
-router.post('/get', token.handler, async (req, res, next) => {
+router.post('/get', /*token.handler,*/ async (req, res, next) => {
     try {
-        const userId = req.session.userId;
+        // const userId = req.session.userId;
+        const userId = 'Ub6d643505c8217a316700b16b986f48c';
         const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
         const centerRes = await pgClient.query(centerQuery);
         const notification_list = centerRes.rows[0].notification_day;
-        const id = Number(req.body.id);
-        if (!id) {
+
+        const id = Number(req.body.id || 0);
+        const preset = Number(req.body.preset || 0);
+
+        if (preset) {
+            const presetQuery = {
+                text: 'SELECT * FROM center.preset WHERE id = $1',
+                values: [preset]
+            };
+
+            const presetRes = (await pgClient.query(presetQuery)).rows[0];
+
+            let limitStr = '';
+            if (Number(presetRes.limit_term || 0)) {
+                const today = new Date();
+                const limitDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + presetRes.limit_term);
+                limitStr = limitDay.toFormat('YYYY-MM-DD');
+            }
+
+            const notification = (notification_list.length > 0) ? [notification_list[0]] : [];
+
+            res.json({
+                notification_list: notification_list,
+                name: presetRes.name,
+                place: presetRes.place || '',
+                category: presetRes.category || 3,
+                limit_day: limitStr,
+                notification: notification
+            })
+
+        } else if (!id) {
             res.json({
                 notification_list: notification_list
             });
