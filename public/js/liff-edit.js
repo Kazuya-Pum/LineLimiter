@@ -69,8 +69,21 @@ document.addEventListener("DOMContentLoaded", () => {
                             updateValue(memoText.value, memoDummy);
                         });
 
-                        memoBlock.appendChild(memoDummy);
-                        memoBlock.appendChild(memoText);
+                        const memoDelBtn = document.createElement('button');
+                        memoDelBtn.type = 'button';
+                        memoDelBtn.textContent = '✖';
+
+                        memoDelBtn.addEventListener('click', () => {
+                            memoList.removeChild(memoBlock);
+                        })
+
+                        memoBlock.appendChild(memoDelBtn);
+                        const memoTextBlock = document.createElement('label');
+
+                        memoTextBlock.appendChild(memoDummy);
+                        memoTextBlock.appendChild(memoText);
+
+                        memoBlock.appendChild(memoTextBlock);
 
                         memoList.insertBefore(memoBlock, memoList.lastElementChild);
                     }
@@ -99,6 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('submitButton').addEventListener('click', async () => {
         try {
+            const form = document.getElementById('form');
+            if (!form.reportValidity()) {
+                return;
+            }
+
             loading(true);
 
             const accessToken = liff.getAccessToken();
@@ -109,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const param = /^\?\w*id=(\d+)/.exec(location.search);
             const id = (param) ? param[1] : 0;
 
-            const editData = new FormData(document.getElementById('form'));
+            const editData = new FormData(form);
             editData.append('id', id);
 
             const res = await fetch('/edit', {

@@ -149,3 +149,23 @@
     width: 2em;
     text-align: right;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul > li::before {
+    content: "";
+    width: 0.75em;
+    height: 0.75em;
+    display:  inline-block;
+    background-color: #65D678;
+    border-radius:  50%;
+    margin-right: 5px;  
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}

@@ -247,10 +247,26 @@
             updateValue(memoText.value, memoDummy);
         });
 
-        memoBlock.appendChild(memoDummy);
-        memoBlock.appendChild(memoText);
+        const memoDelBtn = document.createElement('button');
+        memoDelBtn.type = 'button';
+        memoDelBtn.textContent = '✖';
+
+        memoDelBtn.addEventListener('click', () => {
+            memoList.removeChild(memoBlock);
+        })
+
+        memoBlock.appendChild(memoDelBtn);
+
+        const memoTextBlock = document.createElement('label');
+
+        memoTextBlock.appendChild(memoDummy);
+        memoTextBlock.appendChild(memoText);
+
+        memoBlock.appendChild(memoTextBlock);
 
         memoList.insertBefore(memoBlock, memoAddBtn);
+
+        memoText.focus();
     });
 
 })();

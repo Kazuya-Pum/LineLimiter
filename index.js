@@ -41,6 +41,9 @@ app.use('/list', list);
 app.use('/setting', setting);
 app.use('/history', history);
 app.use('/preset', require('./routes/preset'));
+app.use('/help', (req, res, next) => {
+    res.render('help');
+})
 
 app.use('/bin/notification', (req, res, next) => {
     if (req.get('X-Appengine-Cron') === 'true') {

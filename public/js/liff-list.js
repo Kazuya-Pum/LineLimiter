@@ -77,6 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.classList.add('ll-list-btn');
                     btn.type = 'button';
 
+                    if(diff < 1) {
+                        btn.classList.add('ll-limited');
+                    }
+
                     btn.addEventListener('click', () => { togleInfo(info[i].id); });
 
                     const item = `<img class="ll-list-icon" src="${info[i].image_url || '/images/category.png'}">
@@ -172,6 +176,15 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('infoPlace').textContent = itemInfo.place || '';
             document.getElementById('infoCategory').textContent = categoryTxt;
             document.getElementById('infoImage').style.backgroundImage = `url(${itemInfo.image_url || '/images/icon.png'})`;
+            
+            const memoList = document.getElementById('infoMemo');
+            for(let i = 0; i < itemInfo.memo.length; i++) {
+                const memo = document.createElement('div');
+                memo.textContent = itemInfo.memo[i];
+                
+                memoList.appendChild(memo);
+            }
+
             switchUseBtn(itemInfo.enabled);
 
             loading(false);

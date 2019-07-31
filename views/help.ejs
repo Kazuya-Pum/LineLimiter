@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" type="text/css" href="/css/ll-setting.css">
+    <link rel="stylesheet" type="text/css" href="/css/ll-main.css">
+    <title>使い方</title>
+</head>
+
+<body>
+    <div class="ll-container">
+        <div class="ll-main-block">
+            <div id="add" class="ll-setbox ll-bottom-line">
+                <h4>追加方法</h4>
+                <p>追加画面から以下の項目で食品を登録することができます。登録した食品は一覧画面に表示されます。</p>
+                <ol type="1">
+                    <li>食品名</li>
+                    <li>賞味期限</li>
+                    <li>保存場所</li>
+                    <li>カテゴリー</li>
+                    <li>メモ</li>
+                    <li>画像</li>
+                </ol>
+            </div>
+            <div id="preset" class="ll-setbox ll-bottom-line">
+                <h4>プリセット</h4>
+                <p>あらかじめ用意されているデータから登録することができます。食品名やおおよその賞味期限等が事前に入力されているため、入力の手間が減ります。</p>
+            </div>
+            <div id="history" class="ll-setbox ll-bottom-line">
+                <h4>履歴</h4>
+                <p>使用済みの食品は履歴画面に移ります。履歴から再登録や削除が行えます。</p>
+            </div>
+        </div>
+        <div class="menu_bar input-hide">
+            <a href="/edit">
+                <svg>
+                    <use href="/images/ll-icons.svg#addIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">追加</p>
+            </a>
+            <a href="/list">
+                <svg>
+                    <use href="/images/ll-icons.svg#listIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">一覧</p>
+            </a>
+            <a href="/history">
+                <svg>
+                    <use href="/images/ll-icons.svg#historyIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">履歴</p>
+            </a>
+            <a href="/setting" class="disabled">
+                <svg>
+                    <use href="/images/ll-icons.svg#settingIcon"></use>
+                </svg>
+                <p class="ll-icon-txt">設定</p>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

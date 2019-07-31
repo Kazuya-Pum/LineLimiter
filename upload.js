@@ -19,8 +19,15 @@ const multer = Multer({
     }
 }).single('file');
 
-const storage = new Storage();
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+let storage;
+let bucket;
+
+try {
+    storage = new Storage();
+    bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+} catch (err) {
+    console.error(err.stack);
+}
 
 async function upload(req, res, next) {
     try {
@@ -42,7 +49,7 @@ async function upload(req, res, next) {
             contentType: 'image/png',
             gzip: 'auto',
             resumable: false,
-            // cacheControl: 'public, max-age=31536000',
+            cacheControl: 'public, max-age=31536000',
             // metadata: {
             //     "Content-Length": data.length
             // }

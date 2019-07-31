@@ -24,7 +24,7 @@
                 <div class="menu" id="menu">
                     <div class="menu-top" id="menuTop">
                         <div></div>
-                        <input type="text" id="nameTxt" placeholder="食品名を入力" name="name" required>
+                        <input tabindex="1" type="text" id="nameTxt" placeholder="食品名を入力" name="name" required>
                     </div>
                     <div class="topIcon">
                         <div class="nav-btn">
@@ -48,9 +48,9 @@
                     <div class="swiper-container" id="container">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <div class="input inout-row input-border">
+                                <div tabindex="2" class="input inout-row input-border">
                                     <label class="label_font" for="timer">賞味期限</label>
-                                    <input type="date" id="timer" name="limit_day" required />
+                                    <input tabindex="-1" type="date" id="timer" name="limit_day" required />
                                 </div>
                                 <div class="input input-border">
                                     <label class="label_font">通知日</label>
@@ -60,19 +60,19 @@
                             <div class="swiper-slide">
                                 <div class="input inout-row input-border">
                                     <label class="label_font" for="placeTxt">保存場所</label>
-                                    <input type="text" id="placeTxt" name="place" placeholder="保存場所を入力">
+                                    <input tabindex="-1" type="text" id="placeTxt" name="place" placeholder="保存場所を入力">
                                 </div>
-                                <div class="toggle-buttons">
+                                <div tabindex="3" class="toggle-buttons">
                                     <label class="label_font">
-                                        <input type="radio" name="placeRadio" value="冷蔵庫" />
+                                        <input tabindex="-1" type="radio" name="placeRadio" value="冷蔵庫" />
                                         <span class="button">冷蔵庫</span>
                                     </label>
                                     <label class="label_font">
-                                        <input type="radio" name="placeRadio" value="冷凍庫" />
+                                        <input tabindex="-1" type="radio" name="placeRadio" value="冷凍庫" />
                                         <span class="button">冷凍庫</span>
                                     </label>
                                     <label class="label_font">
-                                        <input type="radio" name="placeRadio" value="常温" />
+                                        <input tabindex="-1" type="radio" name="placeRadio" value="常温" />
                                         <span class="button">常温保存</span>
                                     </label>
                                 </div>
@@ -80,31 +80,35 @@
                             <div class="swiper-slide">
                                 <div class="input input-border">
                                     <label class="label_font">カテゴリ</label>
-                                    <div class="toggle-buttons input">
+                                    <div tabindex="4" class="toggle-buttons input">
                                         <label>
-                                            <input type="radio" class="categoryButton" name="category" value="0" />
+                                            <input tabindex="-1" type="radio" class="categoryButton" name="category"
+                                                value="0" />
                                             <span class="button">調味料</span>
                                         </label>
                                         <label>
-                                            <input type="radio" class="categoryButton" name="category" value="1" />
+                                            <input tabindex="-1" type="radio" class="categoryButton" name="category"
+                                                value="1" />
                                             <span class="button">生鮮食品</span>
                                         </label>
                                         <label>
-                                            <input type="radio" class="categoryButton" name="category" value="2" />
+                                            <input tabindex="-1" type="radio" class="categoryButton" name="category"
+                                                value="2" />
                                             <span class="button">保存食</span>
                                         </label>
                                         <label>
-                                            <input type="radio" class="categoryButton" name="category" value="3" checked/>
+                                            <input tabindex="-1" type="radio" class="categoryButton" name="category"
+                                                value="3" checked />
                                             <span class="button">その他</span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="swiper-slide">
-                                <div class="input input-border">
+                                <div tabindex="5" class="input input-border">
                                     <label class="label_font">メモ</label>
                                     <div id="memoList" class="input ll-memo-list">
-                                        <button type="button" id="memoAddBtn">+</button>
+                                        <button tabindex="-1" type="button" id="memoAddBtn">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +118,7 @@
             </form>
         </div>
         <div class="input-hide ll-submit-block">
-            <button type="button" id="submitButton">保存</button>
+            <button tabindex="6" type="button" id="submitButton">保存</button>
         </div>
         <div class="menu_bar input-hide">
             <a href="/edit" class="disabled">

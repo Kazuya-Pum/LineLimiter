@@ -69,10 +69,9 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 });
 
 // Ajax
-router.post('/get', /*token.handler,*/ async (req, res, next) => {
+router.post('/get', token.handler, async (req, res, next) => {
     try {
-        // const userId = req.session.userId;
-        const userId = 'Ub6d643505c8217a316700b16b986f48c';
+        const userId = req.session.userId;
         const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
         const centerRes = await pgClient.query(centerQuery);
         const notification_list = centerRes.rows[0].notification_day;
