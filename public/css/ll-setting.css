@@ -33,7 +33,7 @@
     .menu_bar > button {
         width: 10vw;
         height: 10vw;
-        background-image: url(/images/time.png);
+        background-image: url(https://storage.googleapis.com/line-limiter-static/images/time.png);
         background-size: contain;
         background-color: white;
         background-repeat: no-repeat;

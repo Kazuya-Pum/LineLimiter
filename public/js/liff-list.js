@@ -35,88 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const info = result.food;
 
-                const listAll = document.getElementById('list-all');
-                const list0 = document.getElementById('list-0');
-                const list1 = document.getElementById('list-1');
-                const list2 = document.getElementById('list-2');
-                const list3 = document.getElementById('list-3');
 
-                const today = new Date();
-
-                for (let i = 0; i < info.length; i++) {
-
-                    const limit = new Date(info[i].limit_day);
-
-                    const infoYear = limit.getFullYear();
-                    const infoMonth = limit.getMonth() + 1;
-                    const infoDate = limit.getDate();
-                    if (infoYear in infoByDay) {
-                        if (infoMonth in infoByDay[infoYear]) {
-                            if (infoDate in infoByDay[infoYear][infoMonth]) {
-                                infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
-                            } else {
-                                infoByDay[infoYear][infoMonth][infoDate] = [];
-                                infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
-                            }
-                        } else {
-                            infoByDay[infoYear][infoMonth] = {};
-                            infoByDay[infoYear][infoMonth][infoDate] = [];
-                            infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
-                        }
-                    } else {
-                        infoByDay[infoYear] = {};
-                        infoByDay[infoYear][infoMonth] = {};
-                        infoByDay[infoYear][infoMonth][infoDate] = [];
-                        infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
-                    }
-
-                    const diff = Math.floor((limit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-
-                    const btn = document.createElement('button');
-                    btn.value = info[i].id;
-                    btn.classList.add('ll-list-btn');
-                    btn.type = 'button';
-
-                    if(diff < 1) {
-                        btn.classList.add('ll-limited');
-                    }
-
-                    btn.addEventListener('click', () => { togleInfo(info[i].id); });
-
-                    const item = `<img class="ll-list-icon" src="${info[i].image_url || '/images/category.png'}">
-                                    <div class="ll-list-name">
-                                        <h4>${info[i].name}</h4>
-                                        <small>${info[i].place || ""}</small>
-                                    </div>
-                                    <div>
-                                        <small>あと</small>
-                                        <strong>${diff}</strong>
-                                        <small>日</small>
-                                    </div>
-                                `
-                        ;
-                    btn.insertAdjacentHTML('beforeend', item);
-                    listAll.appendChild(btn);
-
-                    const btn2 = btn.cloneNode(true);
-                    btn2.addEventListener('click', () => { togleInfo(info[i].id); });
-
-                    switch (info[i].category) {
-                        case 0:
-                            list0.appendChild(btn2);
-                            break;
-                        case 1:
-                            list1.appendChild(btn2);
-                            break;
-                        case 2:
-                            list2.appendChild(btn2);
-                            break;
-                        case 3:
-                        default:
-                            list3.appendChild(btn2);
-                            break;
-                    }
-                }
+                await setItemBtn(info);
 
                 const now = createCalendar(year, month);
                 calendar.appendChild(now);
@@ -132,6 +52,127 @@ document.addEventListener("DOMContentLoaded", () => {
             loading(false);
         }
     );
+
+    document.getElementById('search').addEventListener('change', async (event) => {
+        try {
+            const accessToken = liff.getAccessToken();
+
+            if (!accessToken) {
+                throw new Error("can't get token");
+            }
+
+            loading(true);
+
+            const result = await (await fetch('/list/search', {
+                method: 'POST',
+                headers: {
+                    'accessToken': accessToken,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    prefix: event.currentTarget.value
+                })
+            })).json();
+
+            setItemBtn(result);
+
+        } catch (err) {
+            console.error(err.message);
+        } finally {
+            loading(false);
+        }
+
+    })
+
+    async function setItemBtn(info) {
+        const listAll = document.getElementById('list-all');
+        const list0 = document.getElementById('list-0');
+        const list1 = document.getElementById('list-1');
+        const list2 = document.getElementById('list-2');
+        const list3 = document.getElementById('list-3');
+
+        listAll.textContent = null;
+        list0.textContent = null;
+        list1.textContent = null;
+        list2.textContent = null;
+        list3.textContent = null;
+
+        const today = new Date();
+
+        for (let i = 0; i < info.length; i++) {
+            const limit = new Date(info[i].limit_day);
+
+            const infoYear = limit.getFullYear();
+            const infoMonth = limit.getMonth() + 1;
+            const infoDate = limit.getDate();
+            if (infoYear in infoByDay) {
+                if (infoMonth in infoByDay[infoYear]) {
+                    if (infoDate in infoByDay[infoYear][infoMonth]) {
+                        infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                    } else {
+                        infoByDay[infoYear][infoMonth][infoDate] = [];
+                        infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                    }
+                } else {
+                    infoByDay[infoYear][infoMonth] = {};
+                    infoByDay[infoYear][infoMonth][infoDate] = [];
+                    infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+                }
+            } else {
+                infoByDay[infoYear] = {};
+                infoByDay[infoYear][infoMonth] = {};
+                infoByDay[infoYear][infoMonth][infoDate] = [];
+                infoByDay[infoYear][infoMonth][infoDate].push(info[i]);
+            }
+
+            const diff = Math.floor((limit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+            const btn = document.createElement('button');
+            btn.value = info[i].id;
+            btn.classList.add('ll-list-btn');
+            btn.type = 'button';
+
+            if (diff < 1) {
+                btn.classList.add('ll-limited');
+            }
+
+            btn.addEventListener('click', () => { togleInfo(info[i].id); });
+
+            const item = `<img class="ll-list-icon" src="${info[i].image_url || '/images/category.png'}">
+                                    <div class="ll-list-name">
+                                        <h4>${info[i].name}</h4>
+                                        <small>${info[i].place || ""}</small>
+                                    </div>
+                                    <div>
+                                        <small>あと</small>
+                                        <strong>${diff}</strong>
+                                        <small>日</small>
+                                    </div>
+                                `
+                ;
+            btn.insertAdjacentHTML('beforeend', item);
+            listAll.appendChild(btn);
+
+            const btn2 = btn.cloneNode(true);
+            btn2.addEventListener('click', () => { togleInfo(info[i].id); });
+
+            switch (info[i].category) {
+                case 0:
+                    list0.appendChild(btn2);
+                    break;
+                case 1:
+                    list1.appendChild(btn2);
+                    break;
+                case 2:
+                    list2.appendChild(btn2);
+                    break;
+                case 3:
+                default:
+                    list3.appendChild(btn2);
+                    break;
+            }
+        }
+    };
 
     async function togleInfo(id) {
         infoBord.classList.toggle('ll-open');
@@ -172,16 +213,16 @@ document.addEventListener("DOMContentLoaded", () => {
             infoBord.setAttribute('data-id', id);
             document.getElementById('editButton').value = id;
             document.getElementById('infoName').textContent = itemInfo.name;
-            document.getElementById('infoLimit').textContent = `${infoLimit.getFullYear()}/${infoLimit.getMonth()}/${infoLimit.getDate()}`;
+            document.getElementById('infoLimit').textContent = `${infoLimit.getFullYear()}/${infoLimit.getMonth() + 1}/${infoLimit.getDate()}`;
             document.getElementById('infoPlace').textContent = itemInfo.place || '';
             document.getElementById('infoCategory').textContent = categoryTxt;
             document.getElementById('infoImage').style.backgroundImage = `url(${itemInfo.image_url || '/images/icon.png'})`;
-            
+
             const memoList = document.getElementById('infoMemo');
-            for(let i = 0; i < itemInfo.memo.length; i++) {
+            for (let i = 0; i < itemInfo.memo.length; i++) {
                 const memo = document.createElement('div');
                 memo.textContent = itemInfo.memo[i];
-                
+
                 memoList.appendChild(memo);
             }
 

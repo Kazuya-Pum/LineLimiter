@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const token = require('../common');
-
 const pgClient = require('../database').client;
 
 router.post('/', token.handler, async (req, res, next) => {
@@ -27,6 +26,22 @@ router.post('/', token.handler, async (req, res, next) => {
         };
 
         res.json(result);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.post('/search', token.handler, async (req, res, next) => {
+    try {
+        const userId = req.session.userId;
+        let getQuery = '';
+        if (!req.body.prefix) {
+            getQuery = `SELECT * FROM ${userId}.food WHERE enabled = TRUE ORDER BY limit_day`;
+        } else {
+            getQuery = `SELECT * FROM ${userId}.food WHERE enabled = TRUE AND name like '${req.body.prefix}%'`;
+        }
+        const result = await pgClient.query(getQuery);
+        res.json(result.rows);
     } catch (err) {
         next(err);
     }

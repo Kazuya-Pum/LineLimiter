@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.value = info[i].id;
 
             const item = `
-                            <svg class="ll-list-icon"><use href="/images/ll-icons.svg#${icons[info[i].category || 3]}"></use></svg>
+                            <svg class="ll-list-icon"><use href="/images/ll-icons.svg#${icons[info[i].category]}"></use></svg>
                             <div class="ll-list-name">
                                 <h4>${info[i].name}</h4>
                                 <small>${info[i].place || ""}</small>
