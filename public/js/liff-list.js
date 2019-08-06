@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const now = createCalendar(year, month);
                 calendar.appendChild(now);
-                calendar.scrollTop = '10vh';
+                calendar.scrollTop = 10;
             } catch (err) {
                 console.log(err.stack);
             } finally {
@@ -219,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('infoImage').style.backgroundImage = `url(${itemInfo.image_url || '/images/icon.png'})`;
 
             const memoList = document.getElementById('infoMemo');
+            memoList.textContent = null;
             for (let i = 0; i < itemInfo.memo.length; i++) {
                 const memo = document.createElement('div');
                 memo.textContent = itemInfo.memo[i];
@@ -294,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function clickCalandarBtn(event) {
-        if (event.target.type = 'button') {
+        if (event.target.type == 'button') {
             togleInfo(event.target.value);
         }
     }
@@ -376,8 +377,8 @@ document.addEventListener("DOMContentLoaded", () => {
         calendar.appendChild(next);
     }
 
-    calendar.addEventListener('scroll', () => {
-        if (calendar.scrollTop == 0) {
+    calendar.addEventListener('touchend', () => {
+        if (calendar.scrollTop <= 0) {
             prevCalendar();
         } else if (calendar.lastChild.getBoundingClientRect().top < 70) {
             nextcalendar();

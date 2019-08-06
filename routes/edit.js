@@ -113,7 +113,7 @@ router.post('/get', token.handler, async (req, res, next) => {
             const query = `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = ${id}`;
 
             const userRes = await pgClient.query(query);
-            if (userRes) {
+            if (userRes.rows) {
                 const date = new Date(userRes.rows[0].limit_day);
 
                 res.json({

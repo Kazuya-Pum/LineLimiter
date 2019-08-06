@@ -9,16 +9,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: auto;
     z-index: 10;
     background-color: white;
     padding-bottom: 2vw;
+    min-height: calc(23vw + 3em);
+}
+
+.ll-top-no-icons {
+    min-height: 3em;
+}
+
+.ll-top-only-icons {
+    min-height: 15vw;
 }
 
 .ll-top_bar {
     position: relative;
     width: 100vw;
-    height: 3em;
+    min-height: 3em;
     background-color: #46465A;
     z-index: 10;
     display: flex;
@@ -36,6 +44,7 @@
     border: none;
     color: white;
     background-color: #68687C;
+    -webkit-appearance: none; 
 }
 
 input#search::-webkit-input-placeholder {
@@ -47,7 +56,8 @@ input#search::-webkit-input-placeholder {
     justify-content: space-between;
     align-content: center;
     width: auto;
-    margin: 0 5vw 0 5vw;
+    margin: 0 5vw;
+    min-height: 20vw;
 }
 
 .ll-icon {
@@ -80,6 +90,11 @@ input#search::-webkit-input-placeholder {
 .swiper-container {
     width: 100vw;
     flex-grow: 10;
+    display: flex;
+}
+
+.swiper-container > div {
+    height: initial;
 }
 
 .swiper-slide {
@@ -377,6 +392,7 @@ input#search::-webkit-input-placeholder {
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     padding: 10vh 0 40vh 0;
+    -webkit-overflow-scrolling: touch;
 }
 
 .ll-hide {

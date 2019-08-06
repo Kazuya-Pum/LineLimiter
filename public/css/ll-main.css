@@ -4,10 +4,7 @@ body {
     height: 100vh;
     margin: 0;
     -webkit-appearance: none;
-}
-
-input {
-    -webkit-appearance: none;
+    position: fixed;
 }
 
 .ll-container {
@@ -155,6 +152,7 @@ input {
 }
 
 .menu_bar {
+    min-height: 9vw;
     width: 100vw;
     padding: 2vw 0 5vw 0;
     z-index: 100;

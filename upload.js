@@ -84,7 +84,7 @@ async function deleteFile(url = '') {
 
         console.log(fileName);
 
-        if (!fileName.length != 1) {
+        if (!fileName) {
             return;
         }
 

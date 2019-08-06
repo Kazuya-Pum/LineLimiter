@@ -13,7 +13,7 @@
 
 <body>
     <div class="ll-container">
-        <div class="ll-top">
+        <div class="ll-top ll-top-no-icons">
             <div class="ll-top_bar">
                 <input type="search" id="search" placeholder="検索">
                 <button type="button" id="toggleView" class="ll-view-btn">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div id="listView" class="ll-contents ll-contents-active ll-hide">
-            <div class="ll-top">
+            <div class="ll-top ll-top-only-icons">
                 <div class="ll-top-icons" id="navBtns">
                     <div data-slide="0">
                         <svg class="ll-icon">
@@ -144,10 +144,9 @@
         <div class="loader"></div>
         <div class="ll-loader-back"></div>
     </div>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script type="text/javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script type="text/javascript" src="/js/liff-list.js"></script>
+    <script type="text/javascript" src="https://storage.googleapis.com/line-limiter-static/js/liff-list.js"></script>
     <script type="text/javascript" src="https://storage.googleapis.com/line-limiter-static/js/list.js" async></script>
 </body>
 
