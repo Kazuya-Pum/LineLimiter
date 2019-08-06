@@ -94,8 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('timer').value = info.limit_day || '';
                     document.getElementById('placeTxt').value = info.place || '';
                     document.getElementById('preview').style.backgroundImage = `url(${info.image_url || ''})`;
-                    document.getElementById('image_url').value = info.image_url || '';
                     document.getElementsByName('category')[(info.category !== null) ? info.category : 3].checked = true;
+
+                    if(info.image_url) {
+                        document.getElementById('image_url').value = info.image_url;
+                        document.getElementById('photo-img').style.display = 'none';
+                    }
                 }
             } catch (err) {
                 console.log(err.message);

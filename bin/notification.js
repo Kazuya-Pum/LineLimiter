@@ -35,7 +35,7 @@ module.exports = async () => {
 
             let columns = [];
             for (let i = 0; i < userRes.rows.length; ++i) {
-                const image = userRes.rows[i].image_url || 'https://drive.google.com/uc?authuser=0&id=1rgKd8GG3Q0FRv1Agbfvpl2WCejhS-gKH&export=download';
+                const image = userRes.rows[i].image_url || 'https://storage.googleapis.com/line-limiter-static/icon_origin.png';
 
                 columns.push(
                     {
