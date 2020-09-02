@@ -38,7 +38,7 @@ router.post('/search', token.handler, async (req, res, next) => {
         if (!req.body.prefix) {
             getQuery = `SELECT * FROM ${userId}.food WHERE enabled = TRUE ORDER BY limit_day`;
         } else {
-            getQuery = `SELECT * FROM ${userId}.food WHERE enabled = TRUE AND name like '${req.body.prefix}%'`;
+            getQuery = {text: `SELECT * FROM ${userId}.food WHERE enabled = TRUE AND name like '$1%'`, values: [req.body.prefix]};
         }
         const result = await pgClient.query(getQuery);
         res.json(result.rows);
@@ -54,7 +54,7 @@ router.post('/get', token.handler, async (req, res, next) => {
         }
 
         const userId = req.session.userId;
-        const getQuery = `SELECT * FROM ${userId}.food WHERE id = ${req.body.id} LIMIT 1`;
+        const getQuery = {text: `SELECT * FROM ${userId}.food WHERE id = $1 LIMIT 1`, values: [req.body.id]};
 
         const result = await pgClient.query(getQuery);
         res.json(result.rows[0]);
@@ -70,7 +70,7 @@ router.post('/use', token.handler, async (req, res, next) => {
         }
 
         const userId = req.session.userId;
-        const query = `UPDATE ${userId}.food SET enabled = NOT enabled WHERE id = ${req.body.id} RETURNING enabled`;
+        const query = {text: `UPDATE ${userId}.food SET enabled = NOT enabled WHERE id = $1 RETURNING enabled`, values: [req.body.id]};
 
         const result = await pgClient.query(query);
         res.json(result.rows[0]);

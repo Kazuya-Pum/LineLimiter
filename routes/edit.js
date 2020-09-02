@@ -31,11 +31,13 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 
         const date = new Date(req.body.limit_day);
 
-        let query = '';
-        let values = [];
+        let query = {};
         if (id) {
 
-            const getOldImage = `SELECT image_url FROM ${userId}.food WHERE id = ${id} LIMIT 1`;
+            const getOldImage = {
+                text: `SELECT image_url FROM ${userId}.food WHERE id = $1 LIMIT 1`,
+                values: [id]
+            };
 
             const oldImage = (await pgClient.query(getOldImage)).rows[0].image_url || '';
             const postImageUrl = req.body.image_url || '';
@@ -52,14 +54,18 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
                 }
             }
 
-            query = `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7, enabled = TRUE WHERE id = $8`;
-            values = [req.body.name, date.toFormat('YYYY-MM-DD'), imageUrl, req.body.place, memo, req.body.category, notification, id]
+            query = {
+                text: `UPDATE ${userId}.food SET name = $1, limit_day = $2, image_url = $3, place = $4, memo = $5, category = $6, notification_day = $7, enabled = TRUE WHERE id = $8`,
+                values: [req.body.name, date.toFormat('YYYY-MM-DD'), imageUrl, req.body.place, memo, req.body.category, notification, id]
+            };
         } else {
-            query = `INSERT INTO ${userId}.food (name, limit_day, image_url, place, memo, category, notification_day) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-            values = [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, memo, req.body.category, notification]
+            query = {
+                text: `INSERT INTO ${userId}.food (name, limit_day, image_url, place, memo, category, notification_day) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                values: [req.body.name, date.toFormat('YYYY-MM-DD'), storage.getUrl(req), req.body.place, memo, req.body.category, notification]
+            };
         }
 
-        await pgClient.query(query, values);
+        await pgClient.query(query);
         console.log("edit food");
         res.sendStatus(200).end();
 
@@ -72,7 +78,10 @@ router.post('/', token.handler, storage.multer, storage.upload, async (req, res,
 router.post('/get', token.handler, async (req, res, next) => {
     try {
         const userId = req.session.userId;
-        const centerQuery = `SELECT notification_day FROM center.user WHERE user_id = '${userId}'`;
+        const centerQuery = {
+            text: 'SELECT notification_day FROM center.user WHERE user_id = $1',
+            values: [userId]
+        };
         const centerRes = await pgClient.query(centerQuery);
         const notification_list = centerRes.rows[0].notification_day;
 
@@ -110,7 +119,10 @@ router.post('/get', token.handler, async (req, res, next) => {
                 notification_list: notification_list
             });
         } else {
-            const query = `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = ${id}`;
+            const query = {
+                text: `SELECT name, limit_day, place, memo, category, image_url, notification_day FROM ${userId}.food WHERE id = $1`,
+                values: [id]
+            };
 
             const userRes = await pgClient.query(query);
             if (userRes.rows) {

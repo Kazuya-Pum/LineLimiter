@@ -8,7 +8,7 @@ const pgClient = new pg.Client({
     ssl: true
 });
 
-pgClient.connect();
+pgClient.connect().catch(err => console.error(err.stack));
 
 exports.delete = async (userId, id) => {
     if (userId == null || Number.isInteger(id)) {
