@@ -64,3 +64,4 @@ typings/
 ngrok.exe
 env.yaml
 .editorconfig
+credentials.json
