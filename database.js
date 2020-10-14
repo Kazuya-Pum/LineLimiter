@@ -5,7 +5,7 @@ const storage = require('./upload');
 
 const pgClient = new pg.Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: true
+    ssl: { rejectUnauthorized: false }
 });
 
 pgClient.connect().catch(err => console.error(err.stack));
